@@ -1,0 +1,68 @@
+[
+  {
+    "restaurant": "Behrouz",
+    "coordinates": [77.638246, 12.97826],
+    "logo": "https://i.pinimg.com/736x/0b/d4/ea/0bd4ea6cf23a5cf0ac93b1241c291b59.jpg",
+    "foods": [
+      {
+        "food": "Biriyani",
+        "pic": "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/hgudy2krkjcru4vbml1k",
+        "price": 150
+      },
+      {
+        "food": "Curry",
+        "pic": "https://cdn.cdnparenting.com/articles/2020/02/25175802/1153329448.jpg",
+        "price": 200
+      },
+      {
+        "food": "Juice",
+        "pic": "https://b.zmtcdn.com/data/pictures/6/18976176/39ca9121c578de71aa0e7748fddeae85_featured_v2.jpg",
+        "price": 50
+      }
+    ]
+  },
+  {
+    "restaurant": "Nandini",
+    "coordinates": [77.58554, 12.979626],
+    "logo": "https://media-cdn.grubhub.com/image/upload/d_search:browse-images:default.jpg/w_1200,h_800,f_auto,fl_lossy,q_80,c_fit/tdooak95gb2gei7jtrbb",
+    "foods": [
+      {
+        "food": "Biriyani",
+        "pic": "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/hgudy2krkjcru4vbml1k",
+        "price": 150
+      },
+      {
+        "food": "Curry",
+        "pic": "https://cdn.cdnparenting.com/articles/2020/02/25175802/1153329448.jpg",
+        "price": 200
+      },
+      {
+        "food": "Juice",
+        "pic": "https://b.zmtcdn.com/data/pictures/6/18976176/39ca9121c578de71aa0e7748fddeae85_featured_v2.jpg",
+        "price": 50
+      }
+    ]
+  },
+  {
+    "restaurant": "Nagarjuna",
+    "coordinates": [77.636393, 12.977381],
+    "logo": "https://content3.jdmagicbox.com/comp/bangalore/p1/080pxx80.xx80.111212132031.q3p1/catalogue/nagarjuna-group-of-restaurants-koramangala-bangalore-indian-4a81ktu.jpg",
+    "foods": [
+      {
+        "food": "Biriyani",
+        "pic": "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/hgudy2krkjcru4vbml1k",
+        "price": 150
+      },
+      {
+        "food": "Curry",
+        "pic": "https://cdn.cdnparenting.com/articles/2020/02/25175802/1153329448.jpg",
+        "price": 200
+      },
+      {
+        "food": "Juice",
+        "pic": "https://b.zmtcdn.com/data/pictures/6/18976176/39ca9121c578de71aa0e7748fddeae85_featured_v2.jpg",
+        "price": 50
+      }
+    ]
+  }
+]

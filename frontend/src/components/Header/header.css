@@ -1,0 +1,34 @@
+.header {
+  border-bottom: solid 1px;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: orange;
+}
+
+.homeButton {
+  height: 75%;
+  margin-left: 2%;
+  border: 0px;
+  background-color: orange;
+}
+
+.homeIcon {
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+
+.cartButton {
+  height: 75%;
+  border: 0px;
+  background-color: orange;
+  margin-right: 2%;
+}
+
+.cartIcon {
+  height: 100%;
+  width: 100%;
+  color: chartreuse;
+}
