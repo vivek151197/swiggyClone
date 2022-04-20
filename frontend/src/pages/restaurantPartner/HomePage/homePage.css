@@ -1,0 +1,97 @@
+input {
+  margin-bottom: 2%;
+  border: none;
+  font-size: medium;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: whitesmoke;
+}
+
+.details {
+  display: flex;
+}
+
+.container {
+  margin: auto;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2px black;
+  justify-content: space-between;
+  padding: 3%;
+}
+
+.menuAdder {
+  margin: auto;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2px black;
+  justify-content: space-between;
+  padding: 2%;
+}
+
+.foodItem {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px black;
+  padding: 5%;
+  margin: 5%;
+}
+
+.menu {
+  flex-basis: 25%;
+  box-shadow: 0 0 2px black;
+  padding: 3%;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.coordinates {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  padding: 5%;
+}
+
+.photo {
+  display: flex;
+  flex-direction: column;
+}
+
+.foodPhoto {
+  width: 50%;
+  margin-left: 25%;
+  margin-bottom: 5%;
+}
+
+.deleteItem {
+  border: none;
+  height: 5vh;
+  font-size: medium;
+  background-color: rgb(163, 19, 19);
+  color: white;
+}
+
+.addItem {
+  border: none;
+  height: 5vh;
+  font-size: medium;
+  background-color: green;
+  color: white;
+}
+
+.confirm {
+  width: 100%;
+  height: 50px;
+  border: none;
+  background-color: green;
+  font-size: medium;
+  color: white;
+  margin-top: 5%;
+  position: fixed;
+  bottom: 0;
+}

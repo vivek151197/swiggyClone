@@ -1,14 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
-import OrderProvider from './context'
+import OrderProvider from './components/Context'
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
   <BrowserRouter>
     <OrderProvider>
       <App />
     </OrderProvider>
-  </BrowserRouter>,
-  document.getElementById('root')
+  </BrowserRouter>
 )

@@ -1,0 +1,85 @@
+.foodsList {
+  display: flex;
+  margin: 5%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.foodContainer {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 2px black;
+  height: 15rem;
+  width: 20%;
+  flex-basis: 30%;
+  margin: 10px;
+  justify-content: space-between;
+}
+
+.container:hover {
+  box-shadow: 0 0 5px black;
+}
+
+.food {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80%;
+  margin: 5%;
+}
+
+.foodImage {
+  aspect-ratio: 1;
+  width: 10rem;
+  border-radius: 10%;
+}
+
+.addToCart {
+  color: green;
+  font-size: medium;
+  background-color: burlywood;
+  text-align: center;
+  height: 20%;
+}
+
+.decrease {
+  height: 100%;
+  width: 40%;
+  float: inline-start;
+}
+
+.increase {
+  height: 100%;
+  width: 40%;
+  float: inline-end;
+}
+
+.count {
+  display: inline-block;
+  height: 100%;
+  padding-top: 2%;
+  font-size: x-large;
+}
+
+.initial {
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  font-size: x-large;
+  border: none;
+}
+
+.pure-modal-backdrop .pure-modal {
+  width: 35%;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.panel-title {
+  text-align: center;
+}

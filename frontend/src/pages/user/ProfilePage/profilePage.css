@@ -1,0 +1,36 @@
+.profileContainer {
+  width: 40%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  background-color: whitesmoke;
+  box-shadow: 0 0 10px grey;
+}
+
+.basicDetails {
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+.profilePic {
+  border-radius: 100%;
+  width: 20%;
+  margin-bottom: 2%;
+}
+
+.eachOrder {
+  width: fit-content;
+  margin-bottom: 5%;
+  padding: 5px;
+  box-shadow: 0 0 5px black;
+  list-style: none;
+}
+
+.orders {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

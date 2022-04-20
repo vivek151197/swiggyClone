@@ -1,0 +1,26 @@
+.restaurantsList {
+  display: flex;
+  margin: 5%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.restaurant {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 20%;
+  box-shadow: 0 0 2px black;
+  margin-bottom: 5%;
+  margin-right: 5px;
+}
+
+.restaurant:hover {
+  box-shadow: 0 0 5px black;
+}
+
+.restaurantImage {
+  width: 50%;
+}

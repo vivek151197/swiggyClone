@@ -1,0 +1,60 @@
+.header {
+  border-bottom: solid 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: orange;
+  height: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.homeButton {
+  height: 75%;
+  margin-left: 2%;
+  border: 0px;
+  background-color: orange;
+}
+
+.homeIcon {
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+
+.cartAndLogout {
+  display: flex;
+  height: 75%;
+}
+
+.cartButton {
+  border: 0px;
+  background-color: orange;
+  width: 5vw;
+}
+
+.cartIcon {
+  height: 100%;
+  width: 100%;
+  color: chartreuse;
+}
+
+.cartIcon:hover {
+  background-color: wheat;
+}
+
+.logOutButton {
+  background-color: orange;
+  border: none;
+  color: red;
+  width: 5vw;
+}
+
+.logOutIcon:hover {
+  background-color: wheat;
+}
+
+.logOutIcon {
+  height: 100%;
+  width: 100%;
+}
