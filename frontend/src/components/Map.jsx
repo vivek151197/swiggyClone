@@ -8,44 +8,53 @@ import { OrderState } from '../components/Context'
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
 const Map = () => {
-  const mapWrapper = useRef(null)
+  const mapContainerRef = useRef(null)
   const { restaurant, mylocation } = OrderState()
+
+  // initialize map when component mounts
 
   useEffect(() => {
     const map = new mapboxgl.Map({
-      container: mapWrapper.current,
-      style: 'mapbox://styles/mapbox/streets-v10',
-      center: [77.6441493, 12.9614557],
+      container: mapContainerRef.current,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: mylocation.length
+        ? [mylocation.longitude, mylocation.latitude]
+        : [77.644101, 12.961524],
       zoom: 13
     })
 
     // Creates new directions control instance
     const directions = new MapboxDirections({
       accessToken: mapboxgl.accessToken,
+      interactive: false,
       unit: 'metric',
       profile: 'mapbox/driving',
       controls: {
-        inputs: false,
+        inputs: true,
         instructions: false
       }
     })
 
     // Set origin and destination
     map.on('load', function () {
-      directions.actions.setOriginFromCoordinates([
+      directions.actions.setDestinationFromCoordinates([
         restaurant.coords.longitude,
         restaurant.coords.latitude
       ])
-      directions.actions.setDestinationFromCoordinates([
+      directions.actions.setOriginFromCoordinates([
         mylocation.longitude,
         mylocation.latitude
       ])
     })
 
     // Integrates directions control with map
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
     map.addControl(directions, 'top-left')
+
+    // clean up on unmount
+    return () => map.remove()
   }, [])
-  return <div ref={mapWrapper} style={{ width: '75vw', height: '75vh' }} />
+  return <div ref={mapContainerRef} style={{ width: '75vw', height: '75vh' }} />
 }
 
 export default Map

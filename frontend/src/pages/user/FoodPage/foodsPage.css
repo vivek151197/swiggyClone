@@ -40,23 +40,23 @@
   background-color: burlywood;
   text-align: center;
   height: 20%;
+  display: flex;
 }
 
 .decrease {
   height: 100%;
   width: 40%;
-  float: inline-start;
 }
 
 .increase {
   height: 100%;
   width: 40%;
-  float: inline-end;
 }
 
 .count {
   display: inline-block;
   height: 100%;
+  width: 20%;
   padding-top: 2%;
   font-size: x-large;
 }
