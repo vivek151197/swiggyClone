@@ -13,6 +13,25 @@ connectDB()
 
 const app = express()
 
+//--------------------Deploy--------------//
+const _dirname1 = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(_dirname1, '..', '/frontend/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(
+      path.resolve(_dirname1, '..', 'frontend', 'build', 'index.html')
+    )
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running')
+  })
+}
+
+//--------------------Deploy-------------//
+
 app.use(cors())
 app.use(express.json())
 
