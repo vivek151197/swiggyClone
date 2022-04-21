@@ -12,6 +12,7 @@ import Auth from './pages/restaurantPartner/AuthPage'
 import RestaurantPartnerHome from './pages/restaurantPartner/HomePage'
 import RestPartnerProtect from './pages/restaurantPartner/components/RestProtect'
 import UserProtect from './pages/user/UserProtect'
+import DeliveryPartner from './pages/deliveryPartner'
 
 function App () {
   const { mylocation, setMylocation } = OrderState()
@@ -42,6 +43,7 @@ function App () {
           path='/restPartner/homepage'
           element={<RestPartnerProtect Page={RestaurantPartnerHome} />}
         />
+        <Route path='/deliveryPartner/homepage' element={<DeliveryPartner />} />
       </Routes>
     </div>
   )

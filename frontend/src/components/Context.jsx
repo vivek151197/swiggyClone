@@ -3,13 +3,13 @@ import { createContext, useContext, useEffect, useState } from 'react'
 const OrderContext = createContext()
 
 const OrderProvider = ({ children }) => {
-  const [restaurant, setRestaurant] = useState('')
-  const [address, setAddress] = useState('')
-  const [orders, setOrders] = useState([])
-  const [mylocation, setMylocation] = useState({})
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem('userLogin')) || ''
   )
+  const [orders, setOrders] = useState([])
+  const [restaurant, setRestaurant] = useState('')
+  const [address, setAddress] = useState('')
+  const [mylocation, setMylocation] = useState({})
 
   return (
     <OrderContext.Provider
