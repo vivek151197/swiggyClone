@@ -13,6 +13,12 @@ connectDB()
 
 const app = express()
 
+app.use(cors())
+app.use(express.json())
+
+app.use('/user', userRoutes)
+app.use('/restaurant', restaurantRoutes)
+
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
@@ -27,14 +33,7 @@ if (process.env.NODE_ENV === 'production') {
     res.send('API is running')
   })
 }
-
 //--------------------Deploy-------------//
-
-app.use(cors())
-app.use(express.json())
-
-app.use('/user', userRoutes)
-app.use('/restaurant', restaurantRoutes)
 
 const server = app.listen(
   PORT,
