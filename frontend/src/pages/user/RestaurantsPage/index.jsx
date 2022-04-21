@@ -10,7 +10,7 @@ const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:5000/restaurant/display', {
+    fetch('/restaurant/display', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${user.token}`,

@@ -12,7 +12,7 @@ const CartPage = () => {
 
   const clickHandler = async () => {
     navigate('/deliverystatus')
-    await fetch('http://localhost:5000/user/updateOrders', {
+    await fetch('/user/updateOrders', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -35,7 +35,7 @@ const CartPage = () => {
 
     const localData = JSON.parse(localStorage.getItem('userLogin'))
 
-    await fetch('http://localhost:5000/user/getUser', {
+    await fetch('/user/getUser', {
       'Content-type': 'Application/json',
       method: 'GET',
       headers: {
