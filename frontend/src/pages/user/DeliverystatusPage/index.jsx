@@ -29,12 +29,9 @@ const DeliverystatusPage = () => {
 
   socket.on('orderDelivered', () => {
     setDelivered(true)
-  })
-
-  const clickHandler = () => {
     localStorage.removeItem('currentOrder')
     setOrders([])
-  }
+  })
 
   return (
     <div>
