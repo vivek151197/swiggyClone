@@ -28,7 +28,7 @@ const Map = () => {
       center: mylocation.length
         ? [mylocation.longitude, mylocation.latitude]
         : [77.644101, 12.961524],
-      zoom: 13
+      zoom: 18
     })
 
     // Creates new directions control instance
@@ -96,7 +96,7 @@ const Map = () => {
           // Fly the map to the location.
           map.flyTo({
             center: [longitude, latitude],
-            speed: 0.5
+            speed: 3
           })
 
           // Return the location of the deliverPartner as GeoJSON.

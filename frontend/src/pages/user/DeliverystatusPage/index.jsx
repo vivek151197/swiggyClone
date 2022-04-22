@@ -9,7 +9,7 @@ const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
 
 const DeliverystatusPage = () => {
-  const { setOrders } = OrderState()
+  const { setOrders, setRestaurant } = OrderState()
   const [confirmed, setConfirmed] = useState(false)
   const [picked, setPicked] = useState(false)
   const [arrived, setArrived] = useState(false)
@@ -19,7 +19,7 @@ const DeliverystatusPage = () => {
     setConfirmed(true)
   })
 
-  socket.on('orderPicked', () => {
+  socket.on('orderPicked', input => {
     setPicked(true)
   })
 
@@ -31,6 +31,8 @@ const DeliverystatusPage = () => {
     setDelivered(true)
     localStorage.removeItem('currentOrder')
     setOrders([])
+    setRestaurant('')
+    alert('your order got delivered')
   })
 
   return (
@@ -40,8 +42,8 @@ const DeliverystatusPage = () => {
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
         <button className={confirmed && 'statusTrue'}>Confirm Order</button>
-        <button className={picked && 'statusTrue'}>Order Picked Up</button>{' '}
-        <button className={arrived && 'statusTrue'}>Order Arrived</button>{' '}
+        <button className={picked && 'statusTrue'}>Order Picked Up</button>
+        <button className={arrived && 'statusTrue'}>Order Arrived</button>
         <button className={delivered && 'statusTrue'}>Order Delivered</button>
       </div>
     </div>
