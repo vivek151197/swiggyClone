@@ -49,6 +49,7 @@ const CartPage = () => {
       })
 
     localStorage.setItem('userLogin', JSON.stringify(localData))
+    localStorage.setItem('currentOrder', JSON.stringify(orders))
   }
 
   return (

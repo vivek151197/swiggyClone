@@ -6,10 +6,17 @@ const OrderProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem('userLogin')) || ''
   )
-  const [orders, setOrders] = useState([])
-  const [restaurant, setRestaurant] = useState('')
+  const [orders, setOrders] = useState(
+    JSON.parse(localStorage.getItem('currentOrder')) || []
+  )
+  const [restaurant, setRestaurant] = useState(
+    orders.length ? orders[0].orderRestaurant : ''
+  )
   const [address, setAddress] = useState('')
-  const [mylocation, setMylocation] = useState({})
+  const [mylocation, setMylocation] = useState({
+    longitude: 77.644101,
+    latitude: 12.961524
+  })
 
   return (
     <OrderContext.Provider

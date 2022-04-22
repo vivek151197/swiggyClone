@@ -16,8 +16,8 @@
   justify-content: space-between;
 }
 
-.container:hover {
-  box-shadow: 0 0 5px black;
+.foodContainer:hover {
+  box-shadow: 0 0 5px grey;
 }
 
 .food {

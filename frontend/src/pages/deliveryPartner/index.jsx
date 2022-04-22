@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Map from '../../components/Map'
 import { io } from 'socket.io-client'
+import './deliveryPartner.css'
 
 const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
@@ -13,43 +14,58 @@ const DeliveryPartner = () => {
 
   useEffect(() => {
     socket.emit('sendLocation', deliveryPartnerLocation)
-    console.log(deliveryPartnerLocation)
   }, [deliveryPartnerLocation])
 
-  function success (position) {
+  useEffect(() => {
+    setInterval(() => {
+      navigator.geolocation.getCurrentPosition(success, error)
+    }, 1000)
+  }, [])
+
+  const success = position => {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
     setDeliveryPartnerLocation([longitude, latitude])
   }
 
-  function error (err) {
+  const error = err => {
     alert(err)
   }
 
-  let id = ''
+  const orderConfirmHandler = () => {
+    socket.emit('orderConfirmed')
+  }
 
-  useEffect(() => {
-    setInterval(() => {
-      id = navigator.geolocation.getCurrentPosition(success, error)
-    }, 1000)
-  }, [])
+  const orderPickedHandler = () => {
+    socket.emit('orderPicked')
+  }
+
+  const orderArrivedHandler = () => {
+    socket.emit('orderArrived')
+  }
+
+  const orderDeliveredHandler = () => {
+    socket.emit('orderDelivered')
+  }
 
   return (
     <div>
-      Name: Vivek
-      <br />
-      Location:
-      {`${deliveryPartnerLocation[0]} ------ ${deliveryPartnerLocation[1]} `}
-      <br />
-      <button
-        onClick={() => {
-          console.log('Congratulations, you reached the target')
-          navigator.geolocation.clearWatch(id)
-        }}
-      >
-        clearWatch
-      </button>
-      <Map />
+      <div className='nameAndLocation'>
+        <span>Delivery Partner: Vivek(delivery) </span>
+        <span>
+          Location:
+          {`${deliveryPartnerLocation[0]} ------ ${deliveryPartnerLocation[1]} `}
+        </span>
+      </div>
+      <div className='statusUpdate'>
+        <button onClick={orderConfirmHandler}>Confirm Order</button>
+        <button onClick={orderPickedHandler}>Order Picked Up</button>
+        <button onClick={orderArrivedHandler}>Order Arrived</button>
+        <button onClick={orderDeliveredHandler}>Order Delivered</button>
+      </div>
+      <span className='map'>
+        <Map />
+      </span>
     </div>
   )
 }

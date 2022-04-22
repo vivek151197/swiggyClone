@@ -17,10 +17,9 @@ const Map = () => {
 
   // initialize map when component mounts
   useEffect(() => {
-    let location = [77.6, 12.9]
+    let location = [77.64415, 12.96145]
     socket.on('sendLocation', loc => {
       location = loc
-      console.log(location)
     })
 
     const map = new mapboxgl.Map({
@@ -47,58 +46,60 @@ const Map = () => {
     // Set origin and destination
     map.on('load', function () {
       if (restaurant) {
-        directions.actions.setDestinationFromCoordinates([
-          restaurant.coords.longitude,
-          restaurant.coords.latitude
-        ])
         directions.actions.setOriginFromCoordinates([
           mylocation.longitude,
           mylocation.latitude
+        ])
+        directions.actions.setDestinationFromCoordinates([
+          restaurant.coords.longitude,
+          restaurant.coords.latitude
         ])
       }
     })
 
     map.on('load', async () => {
-      // Get the initial location of the International Space Station (ISS).
+      // Get the initial location of the deliverPartner.
       const geojson = await getLocation()
-      // Add the ISS location as a source.
-      map.addSource('iss', {
+
+      // Add the deliverPartner location as a source.
+      map.addSource('deliverPartner', {
         type: 'geojson',
         data: geojson
       })
+
       // Add the rocket symbol layer to the map.
       map.addLayer({
-        id: 'iss',
+        id: 'deliverPartner',
         type: 'symbol',
-        source: 'iss',
+        source: 'deliverPartner',
         layout: {
           'icon-image': 'rocket-15',
           'icon-size': 1.5
         }
       })
 
-      // Update the source from the API every 2 seconds.
+      // Update the source every 2 seconds.
       const updateSource = setInterval(async () => {
         const geojson = await getLocation(updateSource)
-        map.getSource('iss').setData(geojson)
-      }, 2000)
+        map.getSource('deliverPartner').setData(geojson)
+      }, 1000)
 
       async function getLocation (updateSource) {
-        // Make a GET request to the API and return the location of the ISS.
         try {
           const response = {
             latitude: location[1],
             longitude: location[0]
           }
 
-          // console.log(response)
           const { latitude, longitude } = response
+
           // Fly the map to the location.
           map.flyTo({
             center: [longitude, latitude],
-            speed: 2
+            speed: 0.5
           })
-          // Return the location of the ISS as GeoJSON.
+
+          // Return the location of the deliverPartner as GeoJSON.
           return {
             type: 'FeatureCollection',
             features: [
@@ -126,7 +127,9 @@ const Map = () => {
     // clean up on unmount
     return () => map.remove()
   }, [])
-  return <div ref={mapContainerRef} style={{ width: '75vw', height: '75vh' }} />
+  return (
+    <div ref={mapContainerRef} style={{ width: '100vw', height: '80vh' }} />
+  )
 }
 
 export default Map

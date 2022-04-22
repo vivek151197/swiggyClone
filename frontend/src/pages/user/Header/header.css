@@ -9,6 +9,12 @@
   top: 0;
 }
 
+.title {
+  color: white;
+  position: absolute;
+  left: 40%;
+}
+
 .homeButton {
   height: 75%;
   margin-left: 2%;
@@ -22,9 +28,25 @@
   color: white;
 }
 
-.cartAndLogout {
+.navigatorButtons {
   display: flex;
   height: 75%;
+}
+
+.profileButton {
+  border: 0px;
+  background-color: orange;
+  width: 5vw;
+}
+
+.profileIcon {
+  height: 100%;
+  width: 100%;
+  color: cornsilk;
+}
+
+.profileIcon:hover {
+  color: darkgrey;
 }
 
 .cartButton {
@@ -40,7 +62,7 @@
 }
 
 .cartIcon:hover {
-  background-color: wheat;
+  color: green;
 }
 
 .logOutButton {
@@ -51,7 +73,7 @@
 }
 
 .logOutIcon:hover {
-  background-color: wheat;
+  color: brown;
 }
 
 .logOutIcon {

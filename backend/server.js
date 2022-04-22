@@ -22,17 +22,17 @@ app.use('/restaurant', restaurantRoutes)
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(_dirname1, '/frontend/build')))
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(_dirname1, '/frontend/build')))
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
-  })
-}
+//   app.get('*', (req, res) =>
+//     res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
+//   )
+// } else {
+//   app.get('/', (req, res) => {
+//     res.send('API is running')
+//   })
+// }
 //--------------------Deploy-------------//
 
 const server = app.listen(
@@ -50,5 +50,27 @@ const io = require('socket.io')(server, {
 io.on('connection', socket => {
   socket.on('sendLocation', location => {
     io.emit('sendLocation', location)
+  })
+
+  socket.on('orderConfirmed', () => {
+    console.log('confirm')
+    io.emit('orderConfirmed')
+  })
+
+  socket.on('orderPicked', () => {
+    console.log('pick')
+
+    io.emit('orderPicked')
+  })
+
+  socket.on('orderArrived', () => {
+    console.log('arrive')
+
+    io.emit('orderArrived')
+  })
+
+  socket.on('orderDelivered', () => {
+    console.log('deliver')
+    io.emit('orderDelivered')
   })
 })

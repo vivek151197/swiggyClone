@@ -5,6 +5,7 @@ import 'react-tabs/style/react-tabs.css'
 import Signup from './components/SignUp'
 import Login from './components/Login'
 import { OrderState } from '../../../components/Context'
+import Header from '../Header'
 
 const AuthPage = () => {
   const { user } = OrderState()
@@ -13,23 +14,26 @@ const AuthPage = () => {
   if (user) navigate('/restaurants')
 
   return (
-    <Tabs className='tabs'>
-      <TabList className='tablist'>
-        <Tab className='tab'>
-          <b>Login</b>
-        </Tab>
-        <Tab className='tab'>
-          <b>SignUp</b>
-        </Tab>
-      </TabList>
+    <div>
+      <Header />
+      <Tabs className='tabs'>
+        <TabList className='tablist'>
+          <Tab className='tab'>
+            <b>Login</b>
+          </Tab>
+          <Tab className='tab'>
+            <b>SignUp</b>
+          </Tab>
+        </TabList>
 
-      <TabPanel className='tabPanel'>
-        <Login />
-      </TabPanel>
-      <TabPanel className='tabPanel'>
-        <Signup />
-      </TabPanel>
-    </Tabs>
+        <TabPanel className='tabPanel'>
+          <Login />
+        </TabPanel>
+        <TabPanel className='tabPanel'>
+          <Signup />
+        </TabPanel>
+      </Tabs>
+    </div>
   )
 }
 

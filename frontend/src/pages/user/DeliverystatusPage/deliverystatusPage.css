@@ -1,0 +1,14 @@
+.status {
+  display: flex;
+  justify-content: space-between;
+  background-color: cornsilk;
+  position: sticky;
+  bottom: 0;
+  height: 10vh;
+  margin-top: 5px;
+}
+
+.statusTrue {
+  background-color: green;
+  color: white;
+}

@@ -1,0 +1,17 @@
+.nameAndLocation {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.statusUpdate {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  background-color: cornsilk;
+  height: 10vh;
+}
+
+.map {
+  position: absolute;
+  bottom: 0;
+}
