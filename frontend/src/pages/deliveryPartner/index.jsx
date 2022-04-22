@@ -57,15 +57,17 @@ const DeliveryPartner = () => {
           {`${deliveryPartnerLocation[0]} ------ ${deliveryPartnerLocation[1]} `}
         </span>
       </div>
-      <div className='statusUpdate'>
-        <button onClick={orderConfirmHandler}>Confirm Order</button>
-        <button onClick={orderPickedHandler}>Order Picked Up</button>
-        <button onClick={orderArrivedHandler}>Order Arrived</button>
-        <button onClick={orderDeliveredHandler}>Order Delivered</button>
+      <div className='statusMapcontainer'>
+        <div className='statusUpdate'>
+          <button onClick={orderConfirmHandler}>Confirm Order</button>
+          <button onClick={orderPickedHandler}>Order Picked Up</button>
+          <button onClick={orderArrivedHandler}>Order Arrived</button>
+          <button onClick={orderDeliveredHandler}>Order Delivered</button>
+        </div>
+        <span className='map'>
+          <Map />
+        </span>
       </div>
-      <span className='map'>
-        <Map />
-      </span>
     </div>
   )
 }

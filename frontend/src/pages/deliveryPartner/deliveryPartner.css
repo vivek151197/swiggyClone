@@ -1,3 +1,9 @@
+.statusMapcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 .nameAndLocation {
   display: flex;
   justify-content: space-evenly;
@@ -12,6 +18,4 @@
 }
 
 .map {
-  position: absolute;
-  bottom: 0;
 }
