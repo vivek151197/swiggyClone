@@ -29,7 +29,7 @@ const MenuAdder = ({ setMenudata }) => {
 
   return (
     <div className='menuAdder'>
-      <b className='title'>MenuAdder</b>
+      <b className='menuAdderTitle'>MenuAdder</b>
       Item Name:
       <input type='text' value={name} onChange={e => setName(e.target.value)} />
       Photo of Item:

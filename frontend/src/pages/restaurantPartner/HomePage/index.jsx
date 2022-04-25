@@ -5,6 +5,7 @@ import uploadpic from './uploadpic'
 import { ToastContainer, toast } from 'react-toastify'
 import Header from '../components/Header'
 import MenuAdder from './MenuAdder'
+import MapForCoordinates from './MapForCoordinates'
 
 const RestaurantPartnerHome = () => {
   const [data, setData] = useState(
@@ -16,6 +17,7 @@ const RestaurantPartnerHome = () => {
   const [longitude, setLongitude] = useState(data.coords.longitude || '')
   const [logo, setLogo] = useState(data.logo)
   const [menudata, setMenudata] = useState(data.menu)
+  const [mapShow, setMapShow] = useState(false)
 
   const saveHandler = async () => {
     if (!name || !address || !latitude || !longitude) {
@@ -66,34 +68,48 @@ const RestaurantPartnerHome = () => {
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder='This Name will be displayed to the customers'
-            required
           />
+          <b>Location:</b>
+          <ul className='coordinates'>
+            <button onClick={() => setMapShow(true)}>Choose on map</button>
+            <b> Longitude:</b>
+            <input type='text' value={longitude} readOnly />
+            <b> Latitude:</b>
+            <input type='text' value={latitude} readOnly />
+            <div
+              className='mapForCoordinates'
+              style={mapShow ? { display: 'block' } : { display: 'none' }}
+            >
+              <div className='mapContent'>
+                <button className='closeMap' onClick={() => setMapShow(false)}>
+                  close
+                </button>
+                {mapShow && (
+                  <MapForCoordinates
+                    setAddress={setAddress}
+                    setLatitude={setLatitude}
+                    setLongitude={setLongitude}
+                    latitude={latitude}
+                    longitude={longitude}
+                    setAddress={setAddress}
+                  />
+                )}
+                <button
+                  onClick={() => setMapShow(false)}
+                  className='saveCoordinates'
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+            <br />
+          </ul>
           <b>Address:</b>
           <input
             type='text'
             value={address}
             onChange={e => setAddress(e.target.value)}
-            required
           />
-          <b>Coordinates:</b>
-          <ul className='coordinates'>
-            Longitude:
-            <input
-              type='text'
-              value={longitude}
-              onChange={e => setLongitude(e.target.value)}
-              placeholder='62.8456'
-              required
-            />
-            Latitude:
-            <input
-              type='text'
-              value={latitude}
-              onChange={e => setLatitude(e.target.value)}
-              placeholder='52.9765'
-              required
-            />
-          </ul>
           <b>Logo:</b>
           <input
             type='file'
