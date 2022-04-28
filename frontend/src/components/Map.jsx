@@ -61,7 +61,7 @@ const Map = () => {
       // Get the initial location of the deliveryPartner.
 
       map.loadImage(
-        'http://res.cloudinary.com/vivekgeekskool/image/upload/v1651041678/ju6sgthzmfdahfzej5qx.png',
+        'https://res.cloudinary.com/vivekgeekskool/image/upload/v1651041678/ju6sgthzmfdahfzej5qx.png',
         function (error, image) {
           if (error) throw error
           map.addImage('scooter', image)
