@@ -101,8 +101,8 @@ const DeliveryPartnerHome = () => {
             occupied: true
           })
         })
+
         localStorage.setItem('currentOrder', JSON.stringify(details.order))
-        window.location.reload()
       }
     })
   }, [])
