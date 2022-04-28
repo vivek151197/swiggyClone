@@ -3,6 +3,7 @@ import Map from '../../../components/Map'
 import { io } from 'socket.io-client'
 import './deliveryPartner.css'
 import Header from '../components/Header'
+import { OrderState } from '../../../components/Context'
 
 const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
@@ -16,6 +17,8 @@ const DeliveryPartnerHome = () => {
     77.644,
     12.9614
   ])
+
+  const { deliveryRoom, setDeliveryRoom } = OrderState()
 
   useEffect(() => {
     socket.emit('sendLocation', deliveryPartnerLocation)
@@ -91,6 +94,7 @@ const DeliveryPartnerHome = () => {
 
       if (id === data.deliveryPartner._id) {
         socket.emit('joinRoom', details)
+        setDeliveryRoom(details)
         await fetch('/deliveryPartner/update', {
           method: 'POST',
           headers: {
@@ -103,8 +107,11 @@ const DeliveryPartnerHome = () => {
         })
 
         localStorage.setItem('currentOrder', JSON.stringify(details.order))
+        localStorage.setItem('orderId', JSON.stringify(details.id))
       }
     })
+
+    if (deliveryRoom) socket.emit('joinRoom', deliveryRoom)
   }, [])
 
   useEffect(() => {
@@ -158,6 +165,7 @@ const DeliveryPartnerHome = () => {
       })
     })
     localStorage.removeItem('currentOrder')
+    localStorage.removeItem('orderId')
     window.location.reload()
   }
 

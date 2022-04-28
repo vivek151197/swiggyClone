@@ -11,13 +11,22 @@ const socket = io.connect(ENDPOINT)
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
-const Map = () => {
+const Map = ({ room }) => {
   const mapContainerRef = useRef(null)
-  const { restaurant, mylocation } = OrderState()
-
+  const { restaurant, mylocation, deliveryRoom } = OrderState()
   // initialize map when component mounts
+
   useEffect(() => {
-    let location = [77.64415, 12.96145]
+    socket.emit('joinRoom', deliveryRoom)
+  }, [deliveryRoom])
+
+  useEffect(() => {
+    let location = [77.644, 12.9614]
+
+    if (room) {
+      socket.emit('joinRoom', room)
+    }
+
     socket.on('sendLocation', loc => {
       location = loc
     })
@@ -90,7 +99,7 @@ const Map = () => {
       const updateSource = setInterval(async () => {
         const geojson = await getLocation(updateSource)
         map.getSource('deliveryPartner').setData(geojson)
-      }, 1000)
+      }, 2000)
 
       async function getLocation (updateSource) {
         try {

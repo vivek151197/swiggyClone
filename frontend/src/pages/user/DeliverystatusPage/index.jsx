@@ -14,12 +14,14 @@ const DeliverystatusPage = () => {
   const [picked, setPicked] = useState(false)
   const [arrived, setArrived] = useState(false)
   const [delivered, setDelivered] = useState(false)
+  const [room, setRoom] = useState({ id: customer.customer, order: orders })
 
   useEffect(() => {
     const details = {
       id: customer.customer,
       order: orders
     }
+    setRoom(details)
     socket.emit('joinRoom', details)
   }, [])
 
@@ -40,13 +42,12 @@ const DeliverystatusPage = () => {
     localStorage.removeItem('currentOrder')
     setOrders([])
     setRestaurant('')
-    alert('your order got delivered')
   })
 
   return (
     <div>
       <Header />
-      <Map />
+      <Map room={room} />
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
         <button className={confirmed ? 'statusTrue' : ''}>Confirm Order</button>

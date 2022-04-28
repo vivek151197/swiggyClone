@@ -17,6 +17,11 @@ const OrderProvider = ({ children }) => {
     longitude: 77.644101,
     latitude: 12.961524
   })
+  const [deliveryRoom, setDeliveryRoom] = useState(
+    localStorage.getItem('orderId')
+      ? { id: JSON.parse(localStorage.getItem('orderId')), order: orders }
+      : ''
+  )
 
   return (
     <OrderContext.Provider
@@ -30,7 +35,9 @@ const OrderProvider = ({ children }) => {
         mylocation,
         setMylocation,
         customer,
-        setCustomer
+        setCustomer,
+        deliveryRoom,
+        setDeliveryRoom
       }}
     >
       {children}

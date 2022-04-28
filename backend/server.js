@@ -7,7 +7,6 @@ const restaurantRoutes = require('./routes/restaurantRoutes')
 const customerRoutes = require('./routes/customerRoutes')
 const deliveryPartnerRoutes = require('./routes/deliveryPartnerRoutes')
 const User = require('./models/userModel')
-const Restaurant = require('./models/restaurantModel')
 
 const PORT = process.env.PORT || 5000
 
@@ -31,17 +30,17 @@ app.delete('/users', async (req, res) => {
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(_dirname1, '/frontend/build')))
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(_dirname1, '/frontend/build')))
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
-  })
-}
+//   app.get('*', (req, res) =>
+//     res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
+//   )
+// } else {
+//   app.get('/', (req, res) => {
+//     res.send('API is running')
+//   })
+// }
 //--------------------Deploy-------------//
 
 const server = app.listen(
@@ -57,13 +56,14 @@ const io = require('socket.io')(server, {
 })
 
 io.on('connection', socket => {
+  socket.join(socket.id)
+
   socket.on('joinDelivery', deliveryRoom => {
     socket.join(deliveryRoom)
   })
 
   socket.on('joinRoom', details => {
     socket.join(details.id)
-    console.log('joined')
     socket.in('deliveryRoom').emit('orderDetails', details)
 
     socket.on('sendLocation', location => {
