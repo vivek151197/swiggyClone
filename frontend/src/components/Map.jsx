@@ -58,30 +58,38 @@ const Map = () => {
     })
 
     map.on('load', async () => {
-      // Get the initial location of the deliverPartner.
+      // Get the initial location of the deliveryPartner.
+
+      map.loadImage(
+        'http://res.cloudinary.com/vivekgeekskool/image/upload/v1651041678/ju6sgthzmfdahfzej5qx.png',
+        function (error, image) {
+          if (error) throw error
+          map.addImage('scooter', image)
+        }
+      )
+
       const geojson = await getLocation()
 
-      // Add the deliverPartner location as a source.
-      map.addSource('deliverPartner', {
+      map.addSource('deliveryPartner', {
         type: 'geojson',
         data: geojson
       })
 
       // Add the rocket symbol layer to the map.
       map.addLayer({
-        id: 'deliverPartner',
+        id: 'deliveryPartner',
         type: 'symbol',
-        source: 'deliverPartner',
+        source: 'deliveryPartner',
         layout: {
-          'icon-image': 'rocket-15',
-          'icon-size': 1.5
+          'icon-image': 'scooter',
+          'icon-size': 0.75
         }
       })
 
       // Update the source every 2 seconds.
       const updateSource = setInterval(async () => {
         const geojson = await getLocation(updateSource)
-        map.getSource('deliverPartner').setData(geojson)
+        map.getSource('deliveryPartner').setData(geojson)
       }, 1000)
 
       async function getLocation (updateSource) {
@@ -99,7 +107,7 @@ const Map = () => {
             speed: 3
           })
 
-          // Return the location of the deliverPartner as GeoJSON.
+          // Return the location of the deliveryPartner as GeoJSON.
           return {
             type: 'FeatureCollection',
             features: [

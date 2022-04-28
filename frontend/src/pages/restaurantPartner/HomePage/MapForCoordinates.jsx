@@ -11,10 +11,20 @@ const MapForCoordinates = ({
   latitude,
   longitude,
   setLatitude,
-  setLongitude
+  setLongitude,
+  setAddress
 }) => {
   const mapContainerRef = useRef(null)
   const { restaurant, mylocation } = OrderState()
+
+  async function mapClickFn (coordinates) {
+    const url = `http://open.mapquestapi.com/nominatim/v1/reverse.php?key=${process.env.REACT_APP_MAPQUESTAPI_KEY}&format=json&lat=${coordinates.lat}&lon=${coordinates.lng}`
+    await fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setAddress(data.display_name)
+      })
+  }
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -37,6 +47,7 @@ const MapForCoordinates = ({
       addMarker(e)
       setLatitude(e.lngLat.lat)
       setLongitude(e.lngLat.lng)
+      mapClickFn(e.lngLat)
     })
 
     map.addControl(

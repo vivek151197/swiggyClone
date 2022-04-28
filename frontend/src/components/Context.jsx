@@ -3,8 +3,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 const OrderContext = createContext()
 
 const OrderProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('userLogin')) || ''
+  const [customer, setCustomer] = useState(
+    JSON.parse(localStorage.getItem('customerLogin')) || ''
   )
   const [orders, setOrders] = useState(
     JSON.parse(localStorage.getItem('currentOrder')) || []
@@ -29,8 +29,8 @@ const OrderProvider = ({ children }) => {
         setOrders,
         mylocation,
         setMylocation,
-        user,
-        setUser
+        customer,
+        setCustomer
       }}
     >
       {children}

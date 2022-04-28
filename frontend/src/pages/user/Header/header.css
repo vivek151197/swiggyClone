@@ -1,82 +1,84 @@
-.header {
+.userheader {
   border-bottom: solid 1px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: orange;
-  height: 10px;
+  height: 50px;
   position: sticky;
   top: 0;
 }
 
-.title {
+.usertitle {
   color: white;
   position: absolute;
   left: 40%;
 }
 
-.homeButton {
+.userhomeButton {
   height: 75%;
   margin-left: 2%;
   border: 0px;
   background-color: orange;
+  display: flex;
+  font-size: small;
 }
 
-.homeIcon {
+.userhomeIcon {
   height: 100%;
   width: 100%;
   color: white;
 }
 
-.navigatorButtons {
+.usernavigatorButtons {
   display: flex;
   height: 75%;
 }
 
-.profileButton {
+.userprofileButton {
   border: 0px;
   background-color: orange;
   width: 5vw;
 }
 
-.profileIcon {
+.userprofileIcon {
   height: 100%;
   width: 100%;
   color: cornsilk;
 }
 
-.profileIcon:hover {
+.userprofileIcon:hover {
   color: darkgrey;
 }
 
-.cartButton {
+.usercartButton {
   border: 0px;
   background-color: orange;
   width: 5vw;
 }
 
-.cartIcon {
+.usercartIcon {
   height: 100%;
   width: 100%;
   color: chartreuse;
 }
 
-.cartIcon:hover {
+.usercartIcon:hover {
   color: green;
 }
 
-.logOutButton {
+.userlogOutButton {
   background-color: orange;
   border: none;
   color: red;
   width: 5vw;
 }
 
-.logOutIcon:hover {
+.userlogOutIcon:hover {
   color: brown;
 }
 
-.logOutIcon {
+.userlogOutIcon {
   height: 100%;
   width: 100%;
 }

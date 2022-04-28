@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { OrderState } from '../../../components/Context'
 import Map from '../../../components/Map'
 import Header from '../Header'
@@ -9,11 +9,19 @@ const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
 
 const DeliverystatusPage = () => {
-  const { setOrders, setRestaurant } = OrderState()
+  const { orders, setOrders, setRestaurant, customer } = OrderState()
   const [confirmed, setConfirmed] = useState(false)
   const [picked, setPicked] = useState(false)
   const [arrived, setArrived] = useState(false)
   const [delivered, setDelivered] = useState(false)
+
+  useEffect(() => {
+    const details = {
+      id: customer.customer,
+      order: orders
+    }
+    socket.emit('joinRoom', details)
+  }, [])
 
   socket.on('orderConfirmed', () => {
     setConfirmed(true)
@@ -41,10 +49,12 @@ const DeliverystatusPage = () => {
       <Map />
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
-        <button className={confirmed && 'statusTrue'}>Confirm Order</button>
-        <button className={picked && 'statusTrue'}>Order Picked Up</button>
-        <button className={arrived && 'statusTrue'}>Order Arrived</button>
-        <button className={delivered && 'statusTrue'}>Order Delivered</button>
+        <button className={confirmed ? 'statusTrue' : ''}>Confirm Order</button>
+        <button className={picked ? 'statusTrue' : ''}>Order Picked Up</button>
+        <button className={arrived ? 'statusTrue' : ''}>Order Arrived</button>
+        <button className={delivered ? 'statusTrue' : ''}>
+          Order Delivered
+        </button>
       </div>
     </div>
   )

@@ -3,32 +3,9 @@ const bcrypt = require('bcryptjs')
 
 const userSchema = mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  pic: {
-    type: String,
-    required: true,
-    default:
-      'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
-  },
-  orders: [
-    new mongoose.Schema(
-      {
-        restaurantName: { type: String },
-        items: [
-          {
-            food: { type: String },
-            price: { type: Number },
-            quantity: { type: Number }
-          }
-        ],
-        deliveryStatus: { type: String }
-      },
-      {
-        timestamps: true
-      }
-    )
-  ]
+  role: { type: String, required: true }
 })
 
 userSchema.methods.matchPassword = async function (enteredPassword) {

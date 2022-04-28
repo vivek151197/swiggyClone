@@ -16,7 +16,6 @@ const uploadpic = (pic, toast, setState) => {
     data.append('file', pic)
     data.append('upload_preset', 'swiggy_clone')
     data.append('cloud_name', 'vivekgeekskool')
-    console.log(...data)
     fetch('https://api.cloudinary.com/v1_1/vivekgeekskool/image/upload', {
       method: 'post',
       body: data

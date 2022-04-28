@@ -20,25 +20,31 @@ const Signup = () => {
     const body = {
       name: name[0].toUpperCase() + name.slice(1),
       email: email,
-      password: password
+      password: password,
+      role: 'restaurant'
     }
 
-    await fetch('http://localhost:5000/restaurant', {
+    await fetch('/restaurant', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)
     })
       .then(res => res.json())
-      .then(data =>
-        localStorage.setItem('restaurantLogin', JSON.stringify(data))
-      )
-
-    toast.success('SignUp Successful', {
-      position: 'bottom-center',
-      autoClose: 2000
-    })
-
-    navigate('/restPartner/homePage')
+      .then(data => {
+        if (data.error) {
+          toast.error(data.error, {
+            position: 'bottom-center',
+            autoClose: 2000
+          })
+        } else {
+          localStorage.setItem('restaurantLogin', JSON.stringify(data))
+          toast.success('Login Successful', {
+            position: 'bottom-center',
+            autoClose: 2000
+          })
+          navigate('/restPartner/homePage')
+        }
+      })
   }
 
   return (

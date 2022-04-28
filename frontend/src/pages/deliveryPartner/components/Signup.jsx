@@ -21,34 +21,37 @@ const Signup = () => {
       name: name[0].toUpperCase() + name.slice(1),
       email: email,
       password: password,
-      role: 'customer'
+      role: 'deliveryPartner'
     }
 
-    await fetch('/customer', {
+    await fetch('/deliveryPartner', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          toast.error(data.error, {
+      .then(res => {
+        if (res.status === 400) {
+          toast.error('User exist Please Login', {
             position: 'bottom-center',
             autoClose: 2000
           })
-        } else {
-          localStorage.setItem('customerLogin', JSON.stringify(data))
-          toast.success('Login Successful', {
-            position: 'bottom-center',
-            autoClose: 2000
-          })
-          navigate('/restaurants')
         }
+        return res.json()
       })
+      .then(data => {
+        localStorage.setItem('deliveryPartnerLogin', JSON.stringify(data))
+      })
+
+    toast.success('SignUp Successful', {
+      position: 'bottom-center',
+      autoClose: 2000
+    })
+
+    navigate('/deliveryPartner/homePage')
   }
 
   return (
-    <div className='loginForm'>
+    <form className='loginForm' required>
       <b>Name</b>
       <input
         type='text'
@@ -80,16 +83,14 @@ const Signup = () => {
         }}
         required
       />
-      <button
-        type='submit'
+      <input
+        type='button'
         className='submit'
         value='Signup'
         onClick={signupHandler}
-      >
-        SignUp
-      </button>
+      />
       <ToastContainer />
-    </div>
+    </form>
   )
 }
 

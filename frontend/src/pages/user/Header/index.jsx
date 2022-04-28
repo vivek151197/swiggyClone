@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { FaShoppingCart } from 'react-icons/fa'
 import { SiSwiggy } from 'react-icons/si'
@@ -10,7 +10,8 @@ import './header.css'
 import { OrderState } from '../../../components/Context'
 
 const Header = () => {
-  const { orders, user } = OrderState()
+  const { orders, customer, mylocation } = OrderState()
+  const [address, setAddress] = useState('')
 
   const navigate = useNavigate()
 
@@ -27,29 +28,49 @@ const Header = () => {
   }
 
   const logOutHandler = () => {
-    localStorage.removeItem('userLogin')
+    localStorage.removeItem('customerLogin')
     navigate('/')
   }
 
+  async function mapClickFn (coordinates) {
+    const url = `http://open.mapquestapi.com/nominatim/v1/reverse.php?key=${process.env.REACT_APP_MAPQUESTAPI_KEY}&format=json&lat=${coordinates.latitude}&lon=${coordinates.longitude}`
+    await fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setAddress(data.display_name)
+      })
+  }
+
+  useEffect(() => {
+    mapClickFn({
+      latitude: mylocation.latitude,
+      longitude: mylocation.longitude
+    })
+  }, [])
+
   return (
-    <div className='header'>
-      <button onClick={homeClickHandler} className='homeButton'>
-        <SiSwiggy className='homeIcon' />
-      </button>
-      <h3 className='title'>Swiggy Clone</h3>
-      {user ? (
-        <span className='navigatorButtons'>
-          <button className='profileButton' onClick={profileClickHandler}>
-            <CgProfile className='profileIcon' />
+    <div className='userheader'>
+      <div className='userhomeButton'>
+        <button onClick={homeClickHandler}>
+          <SiSwiggy className='userhomeIcon' />
+        </button>
+        <button>location</button>
+        {address}
+      </div>
+      <h3 className='usertitle'>Swiggy Clone</h3>
+      {customer ? (
+        <span className='usernavigatorButtons'>
+          <button className='userprofileButton' onClick={profileClickHandler}>
+            <CgProfile className='userprofileIcon' />
           </button>
-          <button onClick={cartClickHandler} className='cartButton'>
+          <button onClick={cartClickHandler} className='usercartButton'>
             <div style={{ backgroundColor: 'black' }}>
               <NotificationBadge count={orders.length} effect={Effect.scale} />
             </div>
-            <FaShoppingCart className='cartIcon' />
+            <FaShoppingCart className='usercartIcon' />
           </button>
-          <button onClick={logOutHandler} className='logOutButton'>
-            <AiOutlineLogout className='logOutIcon' />
+          <button onClick={logOutHandler} className='userlogOutButton'>
+            <AiOutlineLogout className='userlogOutIcon' />
           </button>
         </span>
       ) : (

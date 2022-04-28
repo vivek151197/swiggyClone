@@ -6,14 +6,20 @@ import './restaurantsPage.css'
 
 const RestaurantsPage = () => {
   const navigate = useNavigate()
-  const { restaurant, setRestaurant, user, setUser, setOrders } = OrderState()
+  const {
+    restaurant,
+    setRestaurant,
+    customer,
+    setCustomer,
+    setOrders
+  } = OrderState()
   const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {
     fetch('/restaurant/display', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${customer.token}`,
         'Content-type': 'application/json'
       }
     })
@@ -40,7 +46,7 @@ const RestaurantsPage = () => {
               onClick={() => clickHandler(data)}
             >
               <img className='restaurantImage' src={data.logo} />
-              <h4>{data.name}</h4>
+              <h4>{data.restaurant.name}</h4>
             </div>
           )
         })}

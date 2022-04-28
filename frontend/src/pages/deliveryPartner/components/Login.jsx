@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify'
-import { OrderState } from '../../../../components/Context'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { customer, setCustomer } = OrderState()
-
   const navigate = useNavigate()
 
   const loginHandler = async () => {
@@ -23,7 +20,7 @@ const Login = () => {
       password: password
     }
 
-    await fetch('/customer/login', {
+    await fetch('/deliveryPartner/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)
@@ -36,15 +33,17 @@ const Login = () => {
             autoClose: 2000
           })
         } else {
-          localStorage.setItem('customerLogin', JSON.stringify(data))
+          console.log(data)
+          localStorage.setItem('deliveryPartnerLogin', JSON.stringify(data))
           toast.success('Login Successful', {
             position: 'bottom-center',
             autoClose: 2000
           })
-          navigate('/restaurants')
+          navigate('/deliveryPartner/homePage')
         }
       })
   }
+
   return (
     <div className='loginForm'>
       <b>Email</b>
@@ -67,9 +66,12 @@ const Login = () => {
         }}
         required
       />
-      <button type='submit' className='submit' onClick={() => loginHandler()}>
-        Login
-      </button>
+      <input
+        type='button'
+        className='submit'
+        value='Login'
+        onClick={loginHandler}
+      />
       <ToastContainer />
     </div>
   )

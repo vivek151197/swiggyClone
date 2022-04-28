@@ -4,7 +4,10 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const path = require('path')
 const restaurantRoutes = require('./routes/restaurantRoutes')
-const userRoutes = require('./routes/userRoutes')
+const customerRoutes = require('./routes/customerRoutes')
+const deliveryPartnerRoutes = require('./routes/deliveryPartnerRoutes')
+const User = require('./models/userModel')
+const Restaurant = require('./models/restaurantModel')
 
 const PORT = process.env.PORT || 5000
 
@@ -16,23 +19,29 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use('/user', userRoutes)
+app.use('/customer', customerRoutes)
 app.use('/restaurant', restaurantRoutes)
+app.use('/deliveryPartner', deliveryPartnerRoutes)
+
+app.delete('/users', async (req, res) => {
+  const del = await User.deleteMany({})
+  res.status(200).json(del)
+})
 
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(_dirname1, '/frontend/build')))
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(_dirname1, '/frontend/build')))
 
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
-//   )
-// } else {
-//   app.get('/', (req, res) => {
-//     res.send('API is running')
-//   })
-// }
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running')
+  })
+}
 //--------------------Deploy-------------//
 
 const server = app.listen(
@@ -48,29 +57,37 @@ const io = require('socket.io')(server, {
 })
 
 io.on('connection', socket => {
-  socket.on('sendLocation', location => {
-    io.emit('sendLocation', location)
+  socket.on('joinDelivery', deliveryRoom => {
+    socket.join(deliveryRoom)
   })
 
-  socket.on('orderConfirmed', () => {
-    console.log('confirm')
-    io.emit('orderConfirmed')
-  })
+  socket.on('joinRoom', details => {
+    socket.join(details.id)
+    console.log('joined')
+    socket.in('deliveryRoom').emit('orderDetails', details)
 
-  socket.on('orderPicked', () => {
-    console.log('pick')
+    socket.on('sendLocation', location => {
+      socket.in(details.id).emit('sendLocation', location)
+    })
 
-    io.emit('orderPicked')
-  })
+    socket.on('orderConfirmed', () => {
+      console.log('confirm')
+      socket.in(details.id).emit('orderConfirmed')
+    })
 
-  socket.on('orderArrived', () => {
-    console.log('arrive')
+    socket.on('orderPicked', () => {
+      console.log('pick')
+      socket.in(details.id).emit('orderPicked')
+    })
 
-    io.emit('orderArrived')
-  })
+    socket.on('orderArrived', () => {
+      console.log('arrive')
+      socket.in(details.id).emit('orderArrived')
+    })
 
-  socket.on('orderDelivered', () => {
-    console.log('deliver')
-    io.emit('orderDelivered')
+    socket.on('orderDelivered', () => {
+      console.log('deliver')
+      socket.in(details.id).emit('orderDelivered')
+    })
   })
 })

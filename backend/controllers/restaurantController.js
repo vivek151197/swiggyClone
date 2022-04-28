@@ -1,73 +1,72 @@
 const express = require('express')
 const generateToken = require('../config/generateToken')
 const Restaurant = require('../models/restaurantModel')
+const User = require('../models/userModel')
 
 const registerRestaurant = async (req, res) => {
-  const { email, password, name, address } = req.body
-  if (!email || !password || !name) {
-    res.status(400).json({ error: 'Please Enter all Fields' })
+  const { name, email, password, role } = req.body
+
+  if (!name || !email || !password) {
+    res.status(400).json({ error: 'Please Enter all the fields' })
   }
 
-  const restaurantExists = await Restaurant.findOne({ email })
+  const userExists = await User.findOne({ role: { $eq: 'restaurant' }, email })
 
-  if (restaurantExists) {
-    res.status(400).send('Restaurant already exists')
+  if (userExists) {
+    res.status(400).send({ error: 'Restaurant already Exist' })
     return
   }
 
-  const restaurant = await Restaurant.create({
-    email,
-    password,
-    name,
-    address
-  })
+  const user = await User.create({ name, email, password, role })
 
-  if (restaurant) {
-    res.status(201).json({
-      _id: restaurant._id,
-      email: restaurant.email,
-      name: restaurant.name,
-      address: restaurant.address,
-      logo: restaurant.logo,
-      menu: restaurant.menu,
-      coords: restaurant.coords,
-      token: generateToken(restaurant._id)
-    })
-  } else res.status(400).send('Failed to create restaurant')
+  await Restaurant.create({ restaurant: user._id })
+
+  const restaurant = await Restaurant.findOne({
+    restaurant: user._id
+  }).populate('restaurant', { name: 1, email: 1, _id: -1 })
+
+  if (user) {
+    res.status(201).json({ ...restaurant._doc, token: generateToken(user._id) })
+  } else res.status(400).json({ error: 'Failed to create restaurant' })
 }
 
 const authRestaurant = async (req, res) => {
   const { email, password } = req.body
+
   if (!email || !password) {
-    res.status(400).json({ error: 'Please Enter all Fields' })
+    req.status(400).json({ error: 'Please Enter all the fields' })
   }
 
-  const restaurant = await Restaurant.findOne({ email })
-  if (restaurant && restaurant.matchPassword(password)) {
-    res.status(201).json({
-      _id: restaurant._id,
-      email: restaurant.email,
-      name: restaurant.name,
-      address: restaurant.address,
-      coords: restaurant.coords,
-      logo: restaurant.logo,
-      menu: restaurant.menu,
-      token: generateToken(restaurant._id)
-    })
+  const user = await User.findOne({ role: { $eq: 'restaurant' }, email })
+  if (!user) {
+    res.status(400).json({ error: 'Restaurant not present. Please SignUp' })
+    return
+  }
+  const restaurant = await Restaurant.findOne({
+    restaurant: user._id
+  }).populate('restaurant', { name: 1, email: 1, _id: -1 })
+
+  const isPasswordMatch = await user.matchPassword(password)
+
+  if (isPasswordMatch) {
+    res.status(201).json({ ...restaurant._doc, token: generateToken(user._id) })
   } else {
-    res.status(400).json({ error: 'Restaurant doesnt exist. Please signUp' })
+    res.status(400).json({ error: 'Passwords did not match' })
   }
 }
 
 const updateDetails = async (req, res) => {
   const { name, address, coords, logo, menu } = req.body
   try {
-    console.log(name, address)
+    User.updateOne({ _id: req.id }, { name: name })
     const data = await Restaurant.updateOne(
-      { _id: req.id },
+      {
+        restaurant: {
+          _id: req.id
+        }
+      },
       {
         $set: {
-          name: name,
           address: address,
           coords: coords,
           logo: logo,
@@ -85,8 +84,8 @@ const displayRestaurants = async (req, res) => {
   try {
     const restaurantsToDisplay = await Restaurant.find(
       { 'menu.0': { $exists: true } },
-      { name: 1, address: 1, coords: 1, logo: 1, menu: 1 }
-    )
+      { restaurant: 1, address: 1, coords: 1, logo: 1, menu: 1 }
+    ).populate('restaurant', { name: 1, email: 1, _id: 0 })
     res.status(201).json(restaurantsToDisplay)
   } catch (error) {
     res.status(400).json(error)

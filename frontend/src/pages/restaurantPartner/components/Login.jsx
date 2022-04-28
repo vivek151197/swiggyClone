@@ -20,7 +20,7 @@ const Login = () => {
       password: password
     }
 
-    await fetch('http://localhost:5000/restaurant/login', {
+    await fetch('/restaurant/login', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)
@@ -28,7 +28,7 @@ const Login = () => {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          toast.error('Restaurant doesnt exist. Please signUp', {
+          toast.error(data.error, {
             position: 'bottom-center',
             autoClose: 2000
           })
@@ -44,7 +44,7 @@ const Login = () => {
   }
 
   return (
-    <form action='' className='loginForm'>
+    <div className='loginForm'>
       <b>Email</b>
       <input
         type='email'
@@ -72,7 +72,7 @@ const Login = () => {
         onClick={loginHandler}
       />
       <ToastContainer />
-    </form>
+    </div>
   )
 }
 

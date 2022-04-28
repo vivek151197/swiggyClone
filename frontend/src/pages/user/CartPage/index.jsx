@@ -6,49 +6,39 @@ import './cartPage.css'
 
 const CartPage = () => {
   const navigate = useNavigate()
-  const { restaurant, orders, setOrders, user } = OrderState()
+  const { restaurant, orders, setOrders, customer } = OrderState()
 
   const deliveryCharges = 15
 
   const clickHandler = async () => {
     navigate('/deliverystatus')
-    await fetch('/user/updateOrders', {
+    await fetch('/customer/updateOrders', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${customer.token}`,
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        restaurantName: restaurant.name,
+        restaurant: restaurant._id,
         items: orders.map(order => {
           return {
             food: order.food,
             quantity: order.quantity,
             price: order.price
           }
-        }),
-        deliveryStatus: 'Order Confirmed'
+        })
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-
-    const localData = JSON.parse(localStorage.getItem('userLogin'))
-
-    await fetch('/user/getUser', {
-      'Content-type': 'Application/json',
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-        'Content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        localData.orders = data.orders
-      })
-
-    localStorage.setItem('userLogin', JSON.stringify(localData))
+      .then(data =>
+        setOrders(prevData => {
+          prevData.orderId = data.orders[data.orders.length - 1]._id
+          return prevData
+        })
+      )
+    const localData = JSON.parse(localStorage.getItem('customerLogin'))
+    localData.orders = { ...localData.orders }
+    localStorage.setItem('customerLogin', JSON.stringify(localData))
     localStorage.setItem('currentOrder', JSON.stringify(orders))
   }
 
@@ -59,7 +49,7 @@ const CartPage = () => {
         <div className='order'>
           <div className='place'>
             <img className='restaurantImage' src={restaurant.logo} />
-            <b>Restaurant : {restaurant.name}</b>
+            <b>Restaurant : {restaurant.restaurant.name}</b>
           </div>
           <div className='bill'>
             <h4>Items</h4>

@@ -11,14 +11,19 @@ const RestaurantPartnerHome = () => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem('restaurantLogin'))
   )
-  const [name, setName] = useState(data.name)
+  const [name, setName] = useState(data.restaurant.name)
   const [address, setAddress] = useState(data.address)
-  const [latitude, setLatitude] = useState(data.coords.latitude || '')
-  const [longitude, setLongitude] = useState(data.coords.longitude || '')
+  const [latitude, setLatitude] = useState(
+    data.coords ? data.coords.latitude : ''
+  )
+  const [longitude, setLongitude] = useState(
+    data.coords ? data.coords.longitude : ''
+  )
   const [logo, setLogo] = useState(data.logo)
   const [menudata, setMenudata] = useState(data.menu)
   const [mapShow, setMapShow] = useState(false)
 
+  console.log(data)
   const saveHandler = async () => {
     if (!name || !address || !latitude || !longitude) {
       toast.error('Name, Address and coordinates cannot be empty', {
