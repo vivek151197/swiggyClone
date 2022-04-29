@@ -4,6 +4,8 @@ import { io } from 'socket.io-client'
 import './deliveryPartner.css'
 import Header from '../components/Header'
 import { OrderState } from '../../../components/Context'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
@@ -48,7 +50,6 @@ const DeliveryPartnerHome = () => {
 
     socket.on('orderDetails', async details => {
       const restCoords = details.order[0].orderRestaurant.coords
-
       let deliveryPartners = []
 
       await fetch('/deliveryPartner/display', {
@@ -62,6 +63,8 @@ const DeliveryPartnerHome = () => {
         .then(data => {
           deliveryPartners = data
         })
+
+      if (!deliveryPartners.length) return
 
       const deliveryPartnersCoords = deliveryPartners.map(
         partner => partner.coords
@@ -108,6 +111,11 @@ const DeliveryPartnerHome = () => {
 
         localStorage.setItem('currentOrder', JSON.stringify(details.order))
         localStorage.setItem('orderId', JSON.stringify(details.id))
+
+        toast.success(`Order recieved. Please Confirm`, {
+          position: 'bottom-center',
+          autoClose: 2000
+        })
       }
     })
 
@@ -190,6 +198,7 @@ const DeliveryPartnerHome = () => {
           <Map />
         </span>
       </div>
+      <ToastContainer />
     </div>
   )
 }

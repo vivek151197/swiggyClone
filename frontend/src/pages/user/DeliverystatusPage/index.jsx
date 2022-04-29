@@ -5,17 +5,34 @@ import Header from '../Header'
 import { io } from 'socket.io-client'
 import './deliverystatusPage.css'
 import OrderBox from './components/orderBox'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
 
 const DeliverystatusPage = () => {
-  const { orders, setOrders, setRestaurant, customer } = OrderState()
+  const {
+    orders,
+    setOrders,
+    restaurant,
+    setRestaurant,
+    customer
+  } = OrderState()
   const [confirmed, setConfirmed] = useState(false)
   const [picked, setPicked] = useState(false)
   const [arrived, setArrived] = useState(false)
   const [delivered, setDelivered] = useState(false)
   const [room, setRoom] = useState({ id: customer.customer, order: orders })
+
+  useEffect(() => {
+    if (delivered) {
+      toast.success(`Your Order is delivered successfully`, {
+        position: 'bottom-center',
+        autoClose: 2000
+      })
+    }
+  }, [delivered])
 
   useEffect(() => {
     const details = {
@@ -50,7 +67,7 @@ const DeliverystatusPage = () => {
       <Header />
       <div className='mapOrder'>
         <Map room={room} />
-        <OrderBox />
+        {localStorage.getItem('currentOrder') && <OrderBox />}
       </div>
 
       <div className='status'>
@@ -62,6 +79,7 @@ const DeliverystatusPage = () => {
           Order Delivered
         </button>
       </div>
+      <ToastContainer />
     </div>
   )
 }
