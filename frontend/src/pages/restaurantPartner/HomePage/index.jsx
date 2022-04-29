@@ -39,7 +39,7 @@ const RestaurantPartnerHome = () => {
       menu: menudata
     }
     try {
-      await fetch('http://localhost:5000/restaurant/update', {
+      await fetch('/restaurant/update', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${data.token}`,
