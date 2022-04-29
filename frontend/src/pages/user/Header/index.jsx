@@ -40,9 +40,9 @@ const Header = () => {
       <h3 className='usertitle'>Swiggy Clone</h3>
       {customer ? (
         <span className='usernavigatorButtons'>
-          <button className='userprofileButton' onClick={profileClickHandler}>
+          {/* <button className='userprofileButton' onClick={profileClickHandler}>
             <CgProfile className='userprofileIcon' />
-          </button>
+          </button> */}
           <button onClick={cartClickHandler} className='usercartButton'>
             <div style={{ backgroundColor: 'black' }}>
               <NotificationBadge count={orders.length} effect={Effect.scale} />

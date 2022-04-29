@@ -4,22 +4,22 @@ import Header from '../Header'
 import './profilePage.css'
 
 const ProfilePage = () => {
-  const { user, setUser } = OrderState()
+  const { customer, setCustomer } = OrderState()
 
   return (
     <div>
       <Header />
       <div className='profileContainer'>
         <span className='basicDetails'>
-          <img src={user.pic} alt={user.name} className='profilePic' />
+          <img src={customer.pic} alt={customer.name} className='profilePic' />
           <br />
-          <b> {user.name} </b>
+          <b> {customer.name} </b>
           <br />
-          <b> {user.email}</b>
+          <b> {customer.email}</b>
         </span>
         <b> Past Orders: </b>
         <ul className='orders'>
-          {user.orders.map(order => (
+          {customer.orders.map(order => (
             <li className='eachOrder'>
               <b> Restaurant:</b> {order.restaurantName}
               <br />
