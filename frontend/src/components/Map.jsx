@@ -47,7 +47,7 @@ const Map = ({ room }) => {
       unit: 'metric',
       profile: 'mapbox/driving',
       controls: {
-        inputs: true,
+        inputs: false,
         instructions: false
       }
     })
@@ -145,7 +145,15 @@ const Map = ({ room }) => {
     return () => map.remove()
   }, [])
   return (
-    <div ref={mapContainerRef} style={{ width: '100vw', height: '80vh' }} />
+    <div
+      ref={mapContainerRef}
+      style={{
+        width: '100vw',
+        height: '75vh',
+        margin: '1%',
+        border: 'solid 1px black'
+      }}
+    />
   )
 }
 

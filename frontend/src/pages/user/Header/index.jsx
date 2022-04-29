@@ -32,31 +32,11 @@ const Header = () => {
     navigate('/')
   }
 
-  async function mapClickFn (coordinates) {
-    const url = `http://open.mapquestapi.com/nominatim/v1/reverse.php?key=${process.env.REACT_APP_MAPQUESTAPI_KEY}&format=json&lat=${coordinates.latitude}&lon=${coordinates.longitude}`
-    await fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setAddress(data.display_name)
-      })
-  }
-
-  useEffect(() => {
-    mapClickFn({
-      latitude: mylocation.latitude,
-      longitude: mylocation.longitude
-    })
-  }, [])
-
   return (
     <div className='userheader'>
-      <div className='userhomeButton'>
-        <button onClick={homeClickHandler}>
-          <SiSwiggy className='userhomeIcon' />
-        </button>
-        <button>location</button>
-        {address}
-      </div>
+      <button onClick={homeClickHandler} className='userhomeButton'>
+        <SiSwiggy className='userhomeIcon' />
+      </button>
       <h3 className='usertitle'>Swiggy Clone</h3>
       {customer ? (
         <span className='usernavigatorButtons'>

@@ -8,10 +8,12 @@ import { OrderState } from '../../../components/Context'
 import Header from '../Header'
 
 const AuthPage = () => {
-  const { user } = OrderState()
+  const { customer } = OrderState()
   const navigate = useNavigate()
 
-  if (user) navigate('/restaurants')
+  useEffect(() => {
+    if (localStorage.getItem('customerLogin')) navigate('/restaurants')
+  }, [])
 
   return (
     <div>

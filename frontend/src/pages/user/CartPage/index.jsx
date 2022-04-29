@@ -61,22 +61,26 @@ const CartPage = () => {
             <div className='billDetails'>
               <h4>Bill Details</h4>
               <span>
-                Item Total :
+                Item Total:
                 {orders
                   .map(order => order.price * order.quantity)
                   .reduce((acc, curr) => curr + acc, 0)}
               </span>
               <span>Delivery Charges : {deliveryCharges}</span>
               <span></span>
-              Total:
-              {orders
-                .map(order => order.price * order.quantity)
-                .reduce((acc, curr) => curr + acc, 0) + deliveryCharges}
+              <b>
+                Total:
+                {orders
+                  .map(order => order.price * order.quantity)
+                  .reduce((acc, curr) => curr + acc, 0) + deliveryCharges}
+              </b>
             </div>
           </div>
-          <button onClick={clickHandler} className='placeOrder'>
-            Place Order
-          </button>
+          {!localStorage.getItem('currentOrder') && (
+            <button onClick={clickHandler} className='placeOrder'>
+              Place Order
+            </button>
+          )}
         </div>
       ) : (
         <div className='emptyCart'>Cart is empty</div>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Signup from '../components/Signup'
@@ -7,6 +8,13 @@ import './login.css'
 import Header from '../components/Header'
 
 const RestaurantPartnerAuth = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('restaurantLogin'))
+      navigate('/restPartner/homePage')
+  }, [])
+
   return (
     <div>
       <Header />

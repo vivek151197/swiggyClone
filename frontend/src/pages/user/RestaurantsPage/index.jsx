@@ -16,17 +16,21 @@ const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {
-    fetch('/restaurant/display', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${customer.token}`,
-        'Content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        setRestaurants(data)
+    //setLoading needs to be kept
+
+    ;(async () => {
+      await fetch('/restaurant/display', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${customer.token}`,
+          'Content-type': 'application/json'
+        }
       })
+        .then(res => res.json())
+        .then(data => {
+          setRestaurants(data)
+        })
+    })()
   }, [])
 
   const clickHandler = restaurantData => {

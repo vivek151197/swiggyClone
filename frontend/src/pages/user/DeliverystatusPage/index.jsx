@@ -4,6 +4,7 @@ import Map from '../../../components/Map'
 import Header from '../Header'
 import { io } from 'socket.io-client'
 import './deliverystatusPage.css'
+import OrderBox from './components/orderBox'
 
 const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
@@ -47,7 +48,11 @@ const DeliverystatusPage = () => {
   return (
     <div>
       <Header />
-      <Map room={room} />
+      <div className='mapOrder'>
+        <Map room={room} />
+        <OrderBox />
+      </div>
+
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
         <button className={confirmed ? 'statusTrue' : ''}>Confirm Order</button>
