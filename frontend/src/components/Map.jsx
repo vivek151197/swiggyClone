@@ -13,7 +13,6 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
 const Map = ({ orderData }) => {
   const mapContainerRef = useRef(null)
-  const { mylocation } = OrderState()
 
   useEffect(() => {
     socket.emit('joinRoom', orderData._id)
@@ -48,7 +47,6 @@ const Map = ({ orderData }) => {
 
     // Set origin and destination
     map.on('load', function () {
-      console.log(orderData)
       directions.actions.setOriginFromCoordinates([
         orderData.customer.coordinates.longitude,
         orderData.customer.coordinates.latitude
@@ -98,12 +96,10 @@ const Map = ({ orderData }) => {
 
       function getLocation (updateSource) {
         try {
-          const response = {
+          const { latitude, longitude } = {
             latitude: location[1],
             longitude: location[0]
           }
-
-          const { latitude, longitude } = response
 
           // Fly the map to the location.
           map.flyTo({
@@ -133,7 +129,7 @@ const Map = ({ orderData }) => {
     })
 
     // Integrates directions control with map
-    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
+    // map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
     map.addControl(directions, 'top-left')
 
     // clean up on unmount
@@ -142,6 +138,7 @@ const Map = ({ orderData }) => {
       clearInterval(updateSource)
     }
   }, [])
+
   return (
     <div
       ref={mapContainerRef}

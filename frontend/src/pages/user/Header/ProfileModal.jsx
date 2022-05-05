@@ -8,24 +8,29 @@ const ProfileModal = ({ modal, setModal }) => {
 
   const [user, setUser] = useState('')
 
-  useEffect(() => {
-    ;(async () =>
-      await fetch('/customer/getCustomer', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${customer.token}`,
-          'Content-type': 'application/json'
-        }
+  const getCustomer = async () => {
+    await fetch('/customer/getCustomer', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setUser(data)
       })
-        .then(res => res.json())
-        .then(data => setUser(data)))()
+  }
+
+  useEffect(() => {
+    if (customer) getCustomer()
   }, [])
 
   return (
     <PureModal
       header='Profile'
       isOpen={modal}
-      closeButton='close'
+      closeButton='x'
       closeButtonPosition='bottom'
       onClose={() => {
         setModal(false)

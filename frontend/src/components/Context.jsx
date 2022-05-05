@@ -13,21 +13,26 @@ const OrderProvider = ({ children }) => {
     localStorage.getItem('orderId') || null
   )
 
+  const getCustomer = async () => {
+    await fetch('/customer/getCustomer', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMylocation(data.coordinates)
+        setCart(data.cart)
+        data.cart.length && setRestaurant(data.cart[0].orderRestaurant)
+      })
+  }
+
   useEffect(() => {
     if (customer) {
-      fetch('/customer/getCustomer', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${customer.token}`,
-          'Content-type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          setMylocation(data.coordinates)
-          setCart(data.cart)
-          data.cart.length && setRestaurant(data.cart[0].orderRestaurant)
-        })
+      console.log('hr')
+      getCustomer()
     }
   }, [])
 

@@ -33,7 +33,6 @@ const Login = () => {
             autoClose: 2000
           })
         } else {
-          console.log(data)
           localStorage.setItem('deliveryPartnerLogin', JSON.stringify(data))
           toast.success('Login Successful', {
             position: 'bottom-center',

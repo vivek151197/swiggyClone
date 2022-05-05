@@ -86,6 +86,7 @@ const loadRestaurant = async (req, res) => {
 
 const displayRestaurants = async (req, res) => {
   try {
+    console.log('inrest')
     const restaurantsToDisplay = await Restaurant.find(
       { 'menu.0': { $exists: true } },
       { restaurant: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }

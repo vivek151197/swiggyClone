@@ -39,6 +39,8 @@ async function assignDelPartner (orderId) {
 
   const id = deliveryPartner ? deliveryPartner._id : null
 
+  console.log(id)
+
   return id
 }
 

@@ -9,20 +9,23 @@ const RestaurantsPage = () => {
   const { setRestaurant, customer } = OrderState()
   const [restaurants, setRestaurants] = useState([])
 
-  useEffect(() => {
-    ;(async () => {
-      await fetch('/restaurant/display', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${customer.token}`,
-          'Content-type': 'application/json'
-        }
+  const getRestaurants = async () => {
+    await fetch('/restaurant/display', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setRestaurants(data)
       })
-        .then(res => res.json())
-        .then(data => {
-          setRestaurants(data)
-        })
-    })()
+  }
+
+  useEffect(() => {
+    getRestaurants()
   }, [])
 
   const clickHandler = restaurantData => {

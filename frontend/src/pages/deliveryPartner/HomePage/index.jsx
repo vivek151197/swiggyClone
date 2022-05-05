@@ -55,7 +55,6 @@ const DeliveryPartnerHome = () => {
     })()
 
     socket.on('joinRoom', async orderId => {
-      console.log(orderId)
       socket.emit('joinRoom', orderId)
 
       await fetch(`/orders/${orderId}`, {
@@ -68,7 +67,6 @@ const DeliveryPartnerHome = () => {
         .then(res => res.json())
         .then(data => {
           setOrderData(data)
-          orderConfirmHandler()
         })
 
       await fetch('/deliveryPartner/update', {
@@ -94,6 +92,10 @@ const DeliveryPartnerHome = () => {
     }, 1000)
   }, [])
 
+  useEffect(() => {
+    if (orderData && orderData.deliveryStatus === 0) orderConfirmHandler()
+  }, [orderData])
+
   const success = async position => {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
@@ -113,8 +115,8 @@ const DeliveryPartnerHome = () => {
       body: JSON.stringify({
         online: true,
         coordinates: {
-          longitude: latitude,
-          latitude: longitude
+          longitude: longitude,
+          latitude: latitude
         }
       })
     })

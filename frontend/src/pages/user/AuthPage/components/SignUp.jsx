@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { OrderState } from '../../../../components/Context'
 import MapForCoordinates from '../../../restaurantPartner/HomePage/MapForCoordinates'
 
 const Signup = () => {
@@ -12,6 +13,8 @@ const Signup = () => {
   const [address, setAddress] = useState('')
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
+  const { customer, setCustomer } = OrderState()
+
   const navigate = useNavigate()
 
   const signupHandler = async () => {
@@ -48,6 +51,7 @@ const Signup = () => {
           })
         } else {
           localStorage.setItem('customerLogin', JSON.stringify(data))
+          setCustomer(data)
           toast.success('Login Successful', {
             position: 'bottom-center',
             autoClose: 2000

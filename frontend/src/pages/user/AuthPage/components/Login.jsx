@@ -37,6 +37,7 @@ const Login = () => {
           })
         } else {
           localStorage.setItem('customerLogin', JSON.stringify(data))
+          setCustomer(data)
           toast.success('Login Successful', {
             position: 'bottom-center',
             autoClose: 2000
