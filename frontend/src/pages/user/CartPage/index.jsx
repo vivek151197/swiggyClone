@@ -89,11 +89,11 @@ const CartPage = () => {
               </b>
             </div>
           </div>
-          {!localStorage.getItem('currentOrder') && (
+          {
             <button onClick={clickHandler} className='placeOrder'>
               Place Order
             </button>
-          )}
+          }
         </div>
       ) : (
         <div className='emptyCart'>Cart is empty</div>

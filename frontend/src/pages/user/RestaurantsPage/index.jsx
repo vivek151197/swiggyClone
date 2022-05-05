@@ -10,8 +10,6 @@ const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {
-    //setLoading needs to be kept
-
     ;(async () => {
       await fetch('/restaurant/display', {
         method: 'GET',
