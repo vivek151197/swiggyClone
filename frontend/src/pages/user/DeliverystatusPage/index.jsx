@@ -12,70 +12,102 @@ const ENDPOINT = process.env.ENDPOINT
 const socket = io.connect(ENDPOINT)
 
 const DeliverystatusPage = () => {
-  const {
-    orders,
-    setOrders,
-    restaurant,
-    setRestaurant,
-    customer
-  } = OrderState()
-  const [confirmed, setConfirmed] = useState(false)
-  const [picked, setPicked] = useState(false)
-  const [arrived, setArrived] = useState(false)
-  const [delivered, setDelivered] = useState(false)
-  const [room, setRoom] = useState({ id: customer.customer, order: orders })
+  const { customer, orderId } = OrderState()
+  const [orderData, setOrderData] = useState(null)
 
   useEffect(() => {
-    if (delivered) {
+    ;(async () => {
+      await fetch(`/orders/${orderId}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${customer.token}`,
+          'Content-type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setOrderData(data)
+        })
+    })()
+
+    socket.emit('joinRoom', orderId)
+  }, [])
+
+  useEffect(() => {
+    if (orderData && orderData.deliveryStatus === 4) {
       toast.success(`Your Order is delivered successfully`, {
         position: 'bottom-center',
         autoClose: 2000
       })
     }
-  }, [delivered])
-
-  useEffect(() => {
-    const details = {
-      id: customer.customer,
-      order: orders
-    }
-    setRoom(details)
-    socket.emit('joinRoom', details)
-  }, [])
+  }, [orderData])
 
   socket.on('orderConfirmed', () => {
-    setConfirmed(true)
+    console.log('confirmed')
+    setOrderData(prevData => {
+      prevData.deliveryStatus = 1
+      return { ...prevData }
+    })
   })
 
-  socket.on('orderPicked', input => {
-    setPicked(true)
+  socket.on('orderPicked', () => {
+    console.log('picked')
+    setOrderData(prevData => {
+      prevData.deliveryStatus = 2
+      return { ...prevData }
+    })
   })
 
   socket.on('orderArrived', () => {
-    setArrived(true)
+    setOrderData(prevData => {
+      prevData.deliveryStatus = 3
+      return { ...prevData }
+    })
   })
 
   socket.on('orderDelivered', () => {
-    setDelivered(true)
-    localStorage.removeItem('currentOrder')
-    setOrders([])
-    setRestaurant('')
+    setOrderData(prevData => {
+      prevData.deliveryStatus = 4
+      return { ...prevData }
+    })
   })
 
   return (
     <div>
       <Header />
       <div className='mapOrder'>
-        <Map room={room} />
-        {localStorage.getItem('currentOrder') && <OrderBox />}
+        {orderData && <Map orderData={orderData} />}
+        {orderData && <OrderBox orderData={orderData} />}
       </div>
 
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
-        <button className={confirmed ? 'statusTrue' : ''}>Confirm Order</button>
-        <button className={picked ? 'statusTrue' : ''}>Order Picked Up</button>
-        <button className={arrived ? 'statusTrue' : ''}>Order Arrived</button>
-        <button className={delivered ? 'statusTrue' : ''}>
+        <button
+          className={
+            orderData && orderData.deliveryStatus >= 1 ? 'statusTrue' : ''
+          }
+        >
+          Order Confirmed
+        </button>
+        <button
+          className={
+            orderData && orderData.deliveryStatus >= 2 ? 'statusTrue' : ''
+          }
+        >
+          Order Picked Up
+        </button>
+        <button
+          className={
+            orderData && orderData.deliveryStatus >= 3 ? 'statusTrue' : ''
+          }
+        >
+          Order Arrived
+        </button>
+        <button
+          className={
+            orderData && orderData.deliveryStatus >= 4 ? 'statusTrue' : ''
+          }
+        >
           Order Delivered
         </button>
       </div>

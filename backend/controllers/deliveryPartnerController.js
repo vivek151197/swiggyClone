@@ -18,7 +18,7 @@ const registerDeliveryPartner = async (req, res) => {
   if (userExists) {
     res
       .status(400)
-      .send({ error: 'Delivery Partner already Exist. Please SignIn' })
+      .json({ error: 'Delivery Partner already Exist. Please SignIn' })
     return
   }
 
@@ -27,15 +27,10 @@ const registerDeliveryPartner = async (req, res) => {
   await DeliveryPartner.create({
     deliveryPartner: user._id
   })
-  const deliveryPartner = await DeliveryPartner.findOne({
-    deliveryPartner: user._id
-  }).populate('deliveryPartner', { name: 1, email: 1, _id: -1 })
 
   if (user) {
-    res
-      .status(201)
-      .json({ ...deliveryPartner._doc, token: generateToken(user._id) })
-  } else res.status(400).send({ error: 'Failed to create delivery Partner' })
+    res.status(201).json({ token: generateToken(user._id) })
+  } else res.status(400).json({ error: 'Failed to create delivery Partner' })
 }
 
 const authDeliveryPartner = async (req, res) => {
@@ -49,26 +44,22 @@ const authDeliveryPartner = async (req, res) => {
   if (!user) {
     res
       .status(400)
-      .send({ error: 'DeliveryPartner not present. Please SignUp' })
+      .json({ error: 'DeliveryPartner not present. Please SignUp' })
     return
   }
 
-  const deliveryPartner = await DeliveryPartner.findOne({
-    deliveryPartner: user._id
-  }).populate('deliveryPartner', { name: 1, email: 1, _id: -1 })
   const isPasswordMatch = await user.matchPassword(password)
 
   if (isPasswordMatch) {
-    res
-      .status(201)
-      .json({ ...deliveryPartner._doc, token: generateToken(user._id) })
+    res.status(201).json({ token: generateToken(user._id) })
   } else {
-    res.status(400).send({ error: 'Passwords did not match' })
+    res.status(400).json({ error: 'Passwords did not match' })
   }
 }
 
-const updateDetails = async (req, res) => {
-  const { coords, onlineStatus, occupied } = req.body
+const updateDeliveryPartner = async (req, res) => {
+  const { coordinates, online, occupied, orderAssigned } = req.body
+
   try {
     const data = await DeliveryPartner.updateOne(
       {
@@ -78,8 +69,9 @@ const updateDetails = async (req, res) => {
       },
       {
         $set: {
-          online: onlineStatus,
-          coords: coords,
+          online: online,
+          coordinates: coordinates,
+          orderAssigned: orderAssigned,
           occupied: occupied
         }
       }
@@ -90,21 +82,20 @@ const updateDetails = async (req, res) => {
   }
 }
 
-const displayDeliveryPartners = async (req, res) => {
+const getDeliveryPartner = async (req, res) => {
   try {
-    const deliveryPartners = await DeliveryPartner.find({
-      online: true,
-      occupied: false
-    })
-    res.status(201).json(deliveryPartners)
+    const deliveryPartner = await DeliveryPartner.findOne({
+      deliveryPartner: req.id
+    }).populate('deliveryPartner', { name: 1 })
+    res.status(400).json(deliveryPartner)
   } catch (error) {
-    res.status(400).json(error)
+    console.log(error)
   }
 }
 
 module.exports = {
   registerDeliveryPartner,
   authDeliveryPartner,
-  updateDetails,
-  displayDeliveryPartners
+  updateDeliveryPartner,
+  getDeliveryPartner
 }

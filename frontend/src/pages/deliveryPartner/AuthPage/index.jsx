@@ -7,6 +7,8 @@ import './authPage.css'
 import Header from '../components/Header'
 
 const DeliveryPartnerAuth = () => {
+  clearInterval(window.interval)
+
   return (
     <div>
       <Header />

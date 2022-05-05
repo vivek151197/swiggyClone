@@ -4,14 +4,17 @@ import { FaShoppingCart } from 'react-icons/fa'
 import { SiSwiggy } from 'react-icons/si'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { CgProfile } from 'react-icons/cg'
+import { RiEBikeFill } from 'react-icons/ri'
 import NotificationBadge from 'react-notification-badge'
 import { Effect } from 'react-notification-badge'
 import './header.css'
 import { OrderState } from '../../../components/Context'
+import ProfileModal from './ProfileModal'
 
 const Header = () => {
-  const { orders, customer, mylocation } = OrderState()
+  const { cart, customer, mylocation } = OrderState()
   const [address, setAddress] = useState('')
+  const [modal, setModal] = useState(false)
 
   const navigate = useNavigate()
 
@@ -20,11 +23,15 @@ const Header = () => {
   }
 
   const profileClickHandler = () => {
-    navigate('/profile')
+    setModal(true)
   }
 
   const cartClickHandler = () => {
     navigate('/cart')
+  }
+
+  const ordersClickHandler = () => {
+    navigate('/orders')
   }
 
   const logOutHandler = () => {
@@ -40,14 +47,20 @@ const Header = () => {
       <h3 className='usertitle'>Swiggy Clone</h3>
       {customer ? (
         <span className='usernavigatorButtons'>
-          {/* <button className='userprofileButton' onClick={profileClickHandler}>
+          <button className='userprofileButton' onClick={profileClickHandler}>
             <CgProfile className='userprofileIcon' />
-          </button> */}
+          </button>
           <button onClick={cartClickHandler} className='usercartButton'>
             <div style={{ backgroundColor: 'black' }}>
-              <NotificationBadge count={orders.length} effect={Effect.scale} />
+              <NotificationBadge
+                count={cart && cart.length}
+                effect={Effect.scale}
+              />
             </div>
             <FaShoppingCart className='usercartIcon' />
+          </button>
+          <button onClick={ordersClickHandler}>
+            <RiEBikeFill />
           </button>
           <button onClick={logOutHandler} className='userlogOutButton'>
             <AiOutlineLogout className='userlogOutIcon' />
@@ -58,6 +71,7 @@ const Header = () => {
           <br />
         </>
       )}
+      <ProfileModal modal={modal} setModal={setModal} />
     </div>
   )
 }

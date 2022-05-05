@@ -6,38 +6,44 @@ const OrderProvider = ({ children }) => {
   const [customer, setCustomer] = useState(
     JSON.parse(localStorage.getItem('customerLogin')) || ''
   )
-  const [orders, setOrders] = useState(
-    JSON.parse(localStorage.getItem('currentOrder')) || []
+  const [cart, setCart] = useState([])
+  const [restaurant, setRestaurant] = useState(null)
+  const [mylocation, setMylocation] = useState(null)
+  const [orderId, setOrderId] = useState(
+    localStorage.getItem('orderId') || null
   )
-  const [restaurant, setRestaurant] = useState(
-    orders.length ? orders[0].orderRestaurant : ''
-  )
-  const [address, setAddress] = useState('')
-  const [mylocation, setMylocation] = useState({
-    longitude: 77.644101,
-    latitude: 12.961524
-  })
-  const [deliveryRoom, setDeliveryRoom] = useState(
-    localStorage.getItem('orderId')
-      ? { id: JSON.parse(localStorage.getItem('orderId')), order: orders }
-      : ''
-  )
+
+  useEffect(() => {
+    if (customer) {
+      fetch('/customer/getCustomer', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${customer.token}`,
+          'Content-type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setMylocation(data.coordinates)
+          setCart(data.cart)
+          data.cart.length && setRestaurant(data.cart[0].orderRestaurant)
+        })
+    }
+  }, [])
 
   return (
     <OrderContext.Provider
       value={{
         restaurant,
         setRestaurant,
-        address,
-        setAddress,
-        orders,
-        setOrders,
+        cart,
+        setCart,
         mylocation,
         setMylocation,
         customer,
         setCustomer,
-        deliveryRoom,
-        setDeliveryRoom
+        orderId,
+        setOrderId
       }}
     >
       {children}

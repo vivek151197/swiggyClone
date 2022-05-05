@@ -4,11 +4,10 @@ import 'react-pure-modal/dist/react-pure-modal.min.css'
 import { OrderState } from '../../../components/Context'
 
 const Modal = ({ modal, setModal, data }) => {
-  const { restaurant, orders, setOrders } = OrderState()
+  const { restaurant, cart, setCart } = OrderState()
 
   const yesHandler = () => {
-    console.log(data)
-    setOrders([
+    setCart([
       {
         food: data.name,
         quantity: 1,

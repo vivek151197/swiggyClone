@@ -9,10 +9,11 @@ const deliveryPartnerSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  coords: {
+  coordinates: {
     latitude: { type: Number },
     longitude: { type: Number }
   },
+  orderAssigned: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
   occupied: { type: Boolean, default: false }
 })
 

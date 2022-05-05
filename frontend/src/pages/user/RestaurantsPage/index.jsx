@@ -6,13 +6,7 @@ import './restaurantsPage.css'
 
 const RestaurantsPage = () => {
   const navigate = useNavigate()
-  const {
-    restaurant,
-    setRestaurant,
-    customer,
-    setCustomer,
-    setOrders
-  } = OrderState()
+  const { setRestaurant, customer } = OrderState()
   const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
+import { io } from 'socket.io-client'
 import { OrderState } from '../../../components/Context'
 import Header from '../Header'
 import './cartPage.css'
 
+const ENDPOINT = process.env.ENDPOINT
+const socket = io.connect(ENDPOINT)
+
 const CartPage = () => {
-  const navigate = useNavigate()
-  const { restaurant, orders, setOrders, customer } = OrderState()
+  const { restaurant, setRestaurant, cart, setCart, customer } = OrderState()
 
   const deliveryCharges = 15
 
-  const clickHandler = async () => {
-    navigate('/deliverystatus')
-    await fetch('/customer/updateOrders', {
+  const createOrder = async () => {
+    await fetch('/orders', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${customer.token}`,
@@ -20,7 +22,7 @@ const CartPage = () => {
       },
       body: JSON.stringify({
         restaurant: restaurant._id,
-        items: orders.map(order => {
+        items: cart.map(order => {
           return {
             food: order.food,
             quantity: order.quantity,
@@ -30,22 +32,33 @@ const CartPage = () => {
       })
     })
       .then(res => res.json())
-      .then(data =>
-        setOrders(prevData => {
-          prevData.orderId = data.orders[data.orders.length - 1]._id
-          return prevData
-        })
-      )
-    const localData = JSON.parse(localStorage.getItem('customerLogin'))
-    localData.orders = { ...localData.orders }
-    localStorage.setItem('customerLogin', JSON.stringify(localData))
-    localStorage.setItem('currentOrder', JSON.stringify(orders))
+      .then(data => {
+        socket.emit('assignDeliveryPartner', data._id)
+      })
+  }
+
+  const emptyCart = async () => {
+    setCart([])
+    setRestaurant(null)
+    await fetch('/customer/cart', {
+      method: 'PUT',
+      body: JSON.stringify([]),
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+  }
+
+  const clickHandler = () => {
+    createOrder()
+    emptyCart()
   }
 
   return (
     <div>
       <Header />
-      {orders.length !== 0 ? (
+      {cart && cart.length ? (
         <div className='order'>
           <div className='place'>
             <img className='restaurantImage' src={restaurant.logo} />
@@ -53,7 +66,7 @@ const CartPage = () => {
           </div>
           <div className='bill'>
             <h4>Items</h4>
-            {orders.map((order, index) => (
+            {cart.map((order, index) => (
               <div key={index}>
                 {order.food}({order.quantity}): {order.price * order.quantity}
               </div>
@@ -62,7 +75,7 @@ const CartPage = () => {
               <h4>Bill Details</h4>
               <span>
                 Item Total:
-                {orders
+                {cart
                   .map(order => order.price * order.quantity)
                   .reduce((acc, curr) => curr + acc, 0)}
               </span>
@@ -70,7 +83,7 @@ const CartPage = () => {
               <span></span>
               <b>
                 Total:
-                {orders
+                {cart
                   .map(order => order.price * order.quantity)
                   .reduce((acc, curr) => curr + acc, 0) + deliveryCharges}
               </b>

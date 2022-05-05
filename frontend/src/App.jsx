@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router'
 import { OrderState } from './components/Context'
 import AuthPage from './pages/user/AuthPage'
-import ProfilePage from './pages/user/ProfilePage'
+import OrdersPage from './pages/user/OrdersPage'
 import RestaurantsPage from './pages/user/RestaurantsPage'
 import FoodsPage from './pages/user/FoodPage'
 import CartPage from './pages/user/CartPage'
@@ -34,7 +34,7 @@ function App () {
           element={<UserProtect Page={RestaurantsPage} />}
         />
         <Route path='foods' element={<UserProtect Page={FoodsPage} />} />
-        <Route path='profile' element={<UserProtect Page={ProfilePage} />} />
+        <Route path='orders' element={<UserProtect Page={OrdersPage} />} />
         <Route path='cart' element={<UserProtect Page={CartPage} />} />
         <Route
           path='deliverystatus'

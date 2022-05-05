@@ -8,19 +8,19 @@ const Header = ({ data }) => {
   const navigate = useNavigate()
 
   const logOutHandler = async () => {
-    await fetch('http://localhost:5000/deliveryPartner/update', {
-      method: 'POST',
+    await fetch('/deliveryPartner/update', {
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${data.token}`,
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
-        onlineStatus: false
+        online: false
       })
     })
-      .then(res => res.json())
-      .then(data => {})
+
     localStorage.removeItem('deliveryPartnerLogin')
+    clearInterval(window.interval)
     navigate('/deliveryPartner')
   }
 

@@ -1,11 +1,9 @@
 const express = require('express')
 const {
-  updateOrders,
   registerCustomer,
   authCustomer,
-  updateAddress,
-  updatepic,
-  updatePic
+  getCustomer,
+  updateCart
 } = require('../controllers/customerController')
 const protect = require('../middleware/authMiddleware')
 
@@ -13,8 +11,7 @@ const router = express.Router()
 
 router.route('/').post(registerCustomer)
 router.route('/login').post(authCustomer)
-router.route('/updatePic').post(protect, updatePic)
-router.route('/updateAddress').post(protect, updateAddress)
-router.route('/updateOrders').post(protect, updateOrders)
+router.route('/cart').put(protect, updateCart)
+router.route('/getCustomer').get(protect, getCustomer)
 
 module.exports = router

@@ -2,15 +2,20 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import MapForCoordinates from '../../../restaurantPartner/HomePage/MapForCoordinates'
 
 const Signup = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [mapShow, setMapShow] = useState(false)
+  const [address, setAddress] = useState('')
+  const [longitude, setLongitude] = useState('')
+  const [latitude, setLatitude] = useState('')
   const navigate = useNavigate()
 
   const signupHandler = async () => {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !address) {
       toast('Please enter all the fields', {
         position: 'bottom-center',
         autoClose: 2000
@@ -21,7 +26,12 @@ const Signup = () => {
       name: name[0].toUpperCase() + name.slice(1),
       email: email,
       password: password,
-      role: 'customer'
+      role: 'customer',
+      address: address,
+      coordinates: {
+        longitude: longitude,
+        latitude: latitude
+      }
     }
 
     await fetch('/customer', {
@@ -57,7 +67,6 @@ const Signup = () => {
         onChange={e => {
           setName(e.target.value)
         }}
-        required
       />
       <b>Email</b>
       <input
@@ -67,7 +76,6 @@ const Signup = () => {
         onChange={e => {
           setEmail(e.target.value)
         }}
-        required
       />
       <b>Password</b>
       <input
@@ -78,7 +86,37 @@ const Signup = () => {
         onChange={e => {
           setPassword(e.target.value)
         }}
-        required
+      />
+      <b>Delivery location </b>
+      <button onClick={() => setMapShow(true)}>Choose on map</button>
+      <div
+        className='mapForCoordinates'
+        style={mapShow ? { display: 'block' } : { display: 'none' }}
+      >
+        <div className='mapContent'>
+          <button className='closeMap' onClick={() => setMapShow(false)}>
+            close
+          </button>
+          {mapShow && (
+            <MapForCoordinates
+              setAddress={setAddress}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+              setAddress={setAddress}
+            />
+          )}
+          <button onClick={() => setMapShow(false)} className='saveCoordinates'>
+            Confirm
+          </button>
+        </div>
+      </div>
+      <b>Delivery address</b>
+      <input
+        className='input'
+        value={address}
+        onChange={e => {
+          setAddress(e.target.value)
+        }}
       />
       <button
         type='submit'

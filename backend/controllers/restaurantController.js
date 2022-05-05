@@ -21,12 +21,8 @@ const registerRestaurant = async (req, res) => {
 
   await Restaurant.create({ restaurant: user._id })
 
-  const restaurant = await Restaurant.findOne({
-    restaurant: user._id
-  }).populate('restaurant', { name: 1, email: 1, _id: -1 })
-
   if (user) {
-    res.status(201).json({ ...restaurant._doc, token: generateToken(user._id) })
+    res.status(201).json({ token: generateToken(user._id) })
   } else res.status(400).json({ error: 'Failed to create restaurant' })
 }
 
@@ -42,21 +38,18 @@ const authRestaurant = async (req, res) => {
     res.status(400).json({ error: 'Restaurant not present. Please SignUp' })
     return
   }
-  const restaurant = await Restaurant.findOne({
-    restaurant: user._id
-  }).populate('restaurant', { name: 1, email: 1, _id: -1 })
 
   const isPasswordMatch = await user.matchPassword(password)
 
   if (isPasswordMatch) {
-    res.status(201).json({ ...restaurant._doc, token: generateToken(user._id) })
+    res.status(201).json({ token: generateToken(user._id) })
   } else {
     res.status(400).json({ error: 'Passwords did not match' })
   }
 }
 
 const updateDetails = async (req, res) => {
-  const { name, address, coords, logo, menu } = req.body
+  const { name, address, coordinates, logo, menu } = req.body
   try {
     User.updateOne({ _id: req.id }, { name: name })
     const data = await Restaurant.updateOne(
@@ -68,7 +61,7 @@ const updateDetails = async (req, res) => {
       {
         $set: {
           address: address,
-          coords: coords,
+          coordinates: coordinates,
           logo: logo,
           menu: menu
         }
@@ -80,11 +73,22 @@ const updateDetails = async (req, res) => {
   }
 }
 
+const loadRestaurant = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findOne({
+      restaurant: req.id
+    }).populate('restaurant', { name: 1, email: 1, _id: 0 })
+    res.status(201).json(restaurant)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+}
+
 const displayRestaurants = async (req, res) => {
   try {
     const restaurantsToDisplay = await Restaurant.find(
       { 'menu.0': { $exists: true } },
-      { restaurant: 1, address: 1, coords: 1, logo: 1, menu: 1 }
+      { restaurant: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }
     ).populate('restaurant', { name: 1, email: 1, _id: 0 })
     res.status(201).json(restaurantsToDisplay)
   } catch (error) {
@@ -96,5 +100,6 @@ module.exports = {
   registerRestaurant,
   authRestaurant,
   updateDetails,
+  loadRestaurant,
   displayRestaurants
 }

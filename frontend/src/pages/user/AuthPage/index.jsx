@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router'
 import 'react-tabs/style/react-tabs.css'
 import Signup from './components/SignUp'
 import Login from './components/Login'
-import { OrderState } from '../../../components/Context'
 import Header from '../Header'
 
 const AuthPage = () => {
-  const { customer } = OrderState()
   const navigate = useNavigate()
 
   useEffect(() => {

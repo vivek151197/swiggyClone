@@ -8,22 +8,44 @@ import MenuAdder from './MenuAdder'
 import MapForCoordinates from './MapForCoordinates'
 
 const RestaurantPartnerHome = () => {
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem('restaurantLogin'))
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem('restaurantLogin')).token
   )
-  const [name, setName] = useState(data.restaurant.name)
-  const [address, setAddress] = useState(data.address)
-  const [latitude, setLatitude] = useState(
-    data.coords ? data.coords.latitude : ''
-  )
-  const [longitude, setLongitude] = useState(
-    data.coords ? data.coords.longitude : ''
-  )
-  const [logo, setLogo] = useState(data.logo)
-  const [menudata, setMenudata] = useState(data.menu)
+  const [name, setName] = useState('')
+  const [address, setAddress] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
+  const [logo, setLogo] = useState('')
+  const [menudata, setMenudata] = useState([])
   const [mapShow, setMapShow] = useState(false)
 
-  console.log(data)
+  useEffect(() => {
+    try {
+      ;(async () => {
+        await fetch('http://localhost:5000/restaurant/load', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json'
+          }
+        })
+          .then(res => res.json())
+          .then(data => {
+            setName(data.restaurant.name)
+            setLogo(data.logo)
+            setMenudata(data.menu)
+            data.address && setAddress(data.address)
+            if (data.coordinates) {
+              setLongitude(data.coordinates.longitude)
+              setLatitude(data.coordinates.latitude)
+            }
+          })
+      })()
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
   const saveHandler = async () => {
     if (!name || !address || !latitude || !longitude) {
       toast.error('Name, Address and coordinates cannot be empty', {
@@ -34,15 +56,15 @@ const RestaurantPartnerHome = () => {
     const body = {
       name: name,
       address: address,
-      coords: { latitude: Number(latitude), longitude: Number(longitude) },
+      coordinates: { latitude: Number(latitude), longitude: Number(longitude) },
       logo: logo,
       menu: menudata
     }
     try {
       await fetch('/restaurant/update', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
-          Authorization: `Bearer ${data.token}`,
+          Authorization: `Bearer ${token}`,
           'Content-type': 'application/json'
         },
         body: JSON.stringify(body)
@@ -50,7 +72,10 @@ const RestaurantPartnerHome = () => {
         .then(res => res.json())
         .then(data => console.log(data))
 
-      toast.success('Changes saved succesfully', { position: 'bottom-center' })
+      toast.success('Changes saved succesfully', {
+        position: 'bottom-center',
+        autoClose: 1000
+      })
     } catch (error) {
       console.log(error)
     }
@@ -103,7 +128,7 @@ const RestaurantPartnerHome = () => {
                   onClick={() => setMapShow(false)}
                   className='saveCoordinates'
                 >
-                  Save
+                  Confirm
                 </button>
               </div>
             </div>

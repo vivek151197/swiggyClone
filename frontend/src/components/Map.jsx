@@ -11,32 +11,26 @@ const socket = io.connect(ENDPOINT)
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
-const Map = ({ room }) => {
+const Map = ({ orderData }) => {
   const mapContainerRef = useRef(null)
-  const { restaurant, mylocation, deliveryRoom } = OrderState()
-  // initialize map when component mounts
+  const { mylocation } = OrderState()
 
   useEffect(() => {
-    socket.emit('joinRoom', deliveryRoom)
-  }, [deliveryRoom])
+    socket.emit('joinRoom', orderData._id)
 
-  useEffect(() => {
     let location = [77.644, 12.9614]
 
-    if (room) {
-      socket.emit('joinRoom', room)
-    }
-
     socket.on('sendLocation', loc => {
-      location = loc
+      location = [loc.longitude, loc.latitude]
     })
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v10',
-      center: mylocation.length
-        ? [mylocation.longitude, mylocation.latitude]
-        : [77.644101, 12.961524],
+      center: [
+        orderData.customer.coordinates.longitude,
+        orderData.customer.coordinates.latitude
+      ],
       zoom: 18
     })
 
@@ -54,19 +48,20 @@ const Map = ({ room }) => {
 
     // Set origin and destination
     map.on('load', function () {
-      if (restaurant) {
-        directions.actions.setOriginFromCoordinates([
-          mylocation.longitude,
-          mylocation.latitude
-        ])
-        directions.actions.setDestinationFromCoordinates([
-          restaurant.coords.longitude,
-          restaurant.coords.latitude
-        ])
-      }
+      console.log(orderData)
+      directions.actions.setOriginFromCoordinates([
+        orderData.customer.coordinates.longitude,
+        orderData.customer.coordinates.latitude
+      ])
+      directions.actions.setDestinationFromCoordinates([
+        orderData.restaurant.coordinates.longitude,
+        orderData.restaurant.coordinates.latitude
+      ])
     })
 
-    map.on('load', async () => {
+    let updateSource = ''
+
+    map.on('load', () => {
       // Get the initial location of the deliveryPartner.
 
       map.loadImage(
@@ -77,7 +72,7 @@ const Map = ({ room }) => {
         }
       )
 
-      const geojson = await getLocation()
+      const geojson = getLocation()
 
       map.addSource('deliveryPartner', {
         type: 'geojson',
@@ -96,12 +91,12 @@ const Map = ({ room }) => {
       })
 
       // Update the source every 2 seconds.
-      const updateSource = setInterval(async () => {
-        const geojson = await getLocation(updateSource)
+      updateSource = setInterval(() => {
+        const geojson = getLocation(updateSource)
         map.getSource('deliveryPartner').setData(geojson)
       }, 2000)
 
-      async function getLocation (updateSource) {
+      function getLocation (updateSource) {
         try {
           const response = {
             latitude: location[1],
@@ -142,7 +137,10 @@ const Map = ({ room }) => {
     map.addControl(directions, 'top-left')
 
     // clean up on unmount
-    return () => map.remove()
+    return () => {
+      map.remove()
+      clearInterval(updateSource)
+    }
   }, [])
   return (
     <div

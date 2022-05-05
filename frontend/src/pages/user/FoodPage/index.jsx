@@ -8,7 +8,7 @@ import Modal from './modal'
 
 const FoodsPage = () => {
   const [modal, setModal] = useState(false)
-  const { restaurant, orders, setOrders } = OrderState()
+  const { restaurant, cart, setCart, customer } = OrderState()
   const [temp, setTemp] = useState({})
   const navigate = useNavigate()
 
@@ -16,13 +16,28 @@ const FoodsPage = () => {
     if (!restaurant) navigate('/restaurants')
   }, [])
 
+  useEffect(() => {
+    if (cart !== null) {
+      const body = JSON.stringify(cart)
+      ;(async () =>
+        await fetch('/customer/cart', {
+          method: 'PUT',
+          body: body,
+          headers: {
+            Authorization: `Bearer ${customer.token}`,
+            'Content-type': 'application/json'
+          }
+        }))()
+    }
+  }, [cart])
+
   const increaseHandler = data => {
-    if (orders.length > 0 && orders[0].orderRestaurant._id !== restaurant._id) {
+    if (cart.length && cart[0].orderRestaurant._id !== restaurant._id) {
       setModal(true)
       setTemp(data)
       return
     }
-    setOrders(prevOrder => {
+    setCart(prevOrder => {
       const find = prevOrder.find(order => order.food === data.name)
       const filter = prevOrder.filter(order => order.food !== data.name)
       if (find) {
@@ -41,8 +56,8 @@ const FoodsPage = () => {
     })
   }
 
-  const decreaseHandler = data => {
-    setOrders(prevOrder => {
+  const decreaseHandler = async data => {
+    setCart(prevOrder => {
       const find = prevOrder.find(order => order.food === data.name)
       const filter = prevOrder.filter(order => order.food !== data.name)
       if (find) {
@@ -73,8 +88,9 @@ const FoodsPage = () => {
                   <img className='foodImage' src={data.pic} alt={data.name} />
                 </div>
                 <div className='addToCart'>
-                  {orders.filter(order => order.food === data.name).length &&
-                  orders[0].orderRestaurant._id === restaurant._id ? (
+                  {cart &&
+                  cart.filter(order => order.food === data.name).length &&
+                  cart[0].orderRestaurant._id === restaurant._id ? (
                     <>
                       <button
                         onClick={() => decreaseHandler(data)}
@@ -84,7 +100,7 @@ const FoodsPage = () => {
                       </button>
                       <span className='count'>
                         {
-                          orders.filter(order => order.food === data.name)[0]
+                          cart.filter(order => order.food === data.name)[0]
                             .quantity
                         }
                       </span>

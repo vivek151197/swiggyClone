@@ -24,6 +24,10 @@ const uploadpic = (pic, toast, setState) => {
       .then(data => {
         setState(data.url.toString())
         console.log(data.url.toString())
+        toast.success('Image uploaded successfully', {
+          position: 'bottom-center',
+          autoClose: 1000
+        })
       })
       .catch(err => {
         console.log(err)

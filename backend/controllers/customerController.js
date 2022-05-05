@@ -2,9 +2,10 @@ const express = require('express')
 const generateToken = require('../config/generateToken')
 const User = require('../models/userModel')
 const Customer = require('../models/customerModel')
+const Order = require('../models/orderModel')
 
 const registerCustomer = async (req, res) => {
-  const { name, email, password, role } = req.body
+  const { name, email, password, role, address, coordinates } = req.body
 
   if (!name || !email || !password) {
     res.status(400).json({ error: 'Please Enter all the fields' })
@@ -12,10 +13,8 @@ const registerCustomer = async (req, res) => {
 
   const userExists = await User.findOne({ role: { $eq: 'customer' }, email })
 
-  console.log(userExists)
-
   if (userExists) {
-    res.status(400).send({
+    res.status(400).json({
       error: 'Customer already Exist'
     })
     return
@@ -23,14 +22,17 @@ const registerCustomer = async (req, res) => {
 
   const user = await User.create({ name, email, password, role })
 
-  const customer = await Customer.create({ customer: user._id })
+  await Customer.create({
+    customer: user._id,
+    address: address,
+    coordinates: coordinates
+  })
 
   if (user) {
     res.status(201).json({
-      ...customer._doc,
       token: generateToken(user._id)
     })
-  } else res.status(400).send({ error: 'Failed to create restaurant' })
+  } else res.status(400).json({ error: 'Failed to create customer' })
 }
 
 const authCustomer = async (req, res) => {
@@ -43,29 +45,25 @@ const authCustomer = async (req, res) => {
   const user = await User.findOne({ role: { $eq: 'customer' }, email })
 
   if (!user) {
-    res.status(400).send({ error: 'user not Found. Please SignUp' })
+    res.status(400).json({ error: 'User not Found. Please SignUp' })
     return
   }
 
-  const customer = await Customer.findOne({
-    customer: user._id
-  })
+  const isPasswordMatch = await user.matchPassword(password)
 
-  if (user && user.matchPassword(password)) {
-    res.status(201).json({ ...customer._doc, token: generateToken(user._id) })
+  if (isPasswordMatch) {
+    res.status(201).json({ token: generateToken(user._id) })
   } else {
-    res.status(400).send({ error: 'Passwords dont match' })
+    res.status(400).json({ error: 'Passwords dont match' })
   }
 }
 
-const updatePic = async (req, res) => {
-  const { pic } = req.body
-
+const updateCart = async (req, res) => {
   try {
     const customer = await Customer.findOneAndUpdate(
       { customer: { _id: req.id } },
       {
-        pic: pic
+        $set: { cart: req.body }
       }
     )
     res.status(201).json(customer)
@@ -74,60 +72,18 @@ const updatePic = async (req, res) => {
   }
 }
 
-const updateOrders = async (req, res) => {
-  const { restaurant, items } = req.body
-
-  try {
-    const customer = await Customer.findOneAndUpdate(
-      { customer: { _id: req.id } },
-      {
-        $push: {
-          orders: {
-            restaurant: restaurant,
-            items: items
-          }
-        }
-      }
-    ).populate({
-      path: 'orders',
-      populate: {
-        path: 'restaurant',
-        populate: {
-          path: 'restaurant'
-        }
-      }
-    })
-    res.status(201).json(customer)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const updateAddress = async (req, res) => {
-  const { address, coordinates } = req.body
-
-  try {
-    const customer = await Customer.findOneAndUpdate(
-      { customer: { _id: req.id } },
-      {
-        $push: {
-          addresses: {
-            address: address,
-            coordinates: coordinates
-          }
-        }
-      }
-    )
-    res.status(201).json(customer)
-  } catch (error) {
-    console.log(error)
-  }
+const getCustomer = async (req, res) => {
+  const customer = await Customer.findOne({
+    customer: {
+      _id: req.id
+    }
+  }).populate('customer')
+  res.status(201).json(customer)
 }
 
 module.exports = {
   registerCustomer,
   authCustomer,
-  updateOrders,
-  updateAddress,
-  updatePic
+  updateCart,
+  getCustomer
 }

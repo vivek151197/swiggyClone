@@ -6,7 +6,11 @@ const path = require('path')
 const restaurantRoutes = require('./routes/restaurantRoutes')
 const customerRoutes = require('./routes/customerRoutes')
 const deliveryPartnerRoutes = require('./routes/deliveryPartnerRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 const User = require('./models/userModel')
+const { assignDelPartner } = require('./assignDelPartner')
+const Order = require('./models/orderModel')
+const DeliveryPartner = require('./models/deliveryPartnerModel')
 
 const PORT = process.env.PORT || 5000
 
@@ -20,6 +24,7 @@ app.use(express.json())
 
 app.use('/customer', customerRoutes)
 app.use('/restaurant', restaurantRoutes)
+app.use('/orders', orderRoutes)
 app.use('/deliveryPartner', deliveryPartnerRoutes)
 
 app.delete('/users', async (req, res) => {
@@ -30,17 +35,17 @@ app.delete('/users', async (req, res) => {
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(_dirname1, '/frontend/build')))
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(_dirname1, '/frontend/build')))
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
-  })
-}
+//   app.get('*', (req, res) =>
+//     res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
+//   )
+// } else {
+//   app.get('/', (req, res) => {
+//     res.send('API is running')
+//   })
+// }
 //--------------------Deploy-------------//
 
 const server = app.listen(
@@ -56,38 +61,46 @@ const io = require('socket.io')(server, {
 })
 
 io.on('connection', socket => {
-  socket.join(socket.id)
-
-  socket.on('joinDelivery', deliveryRoom => {
-    socket.join(deliveryRoom)
+  socket.on('joinOwn', async id => {
+    socket.join(JSON.stringify(id))
+    const deliveryPartner = await DeliveryPartner.findOne({ _id: id })
+    if (!deliveryPartner.occupied) {
+      const order = await Order.findOne({ deliveryStatus: 0 })
+      if (order) {
+        io.in(JSON.stringify(id)).emit('joinRoom', order._id)
+      }
+    }
   })
 
-  socket.on('joinRoom', details => {
-    socket.join(details.id)
-    socket.in('deliveryRoom').emit('orderDetails', details)
+  socket.on('assignDeliveryPartner', async orderId => {
+    await assignDelPartner(orderId).then(res => {
+      if (res) socket.in(JSON.stringify(res)).emit('joinRoom', orderId)
+    })
+  })
+
+  socket.on('joinRoom', orderId => {
+    console.log(orderId)
+    socket.join(orderId)
 
     socket.on('sendLocation', location => {
-      socket.in(details.id).emit('sendLocation', location)
+      socket.in(orderId).emit('sendLocation', location)
     })
 
     socket.on('orderConfirmed', () => {
       console.log('confirm')
-      socket.in(details.id).emit('orderConfirmed')
+      socket.in(orderId).emit('orderConfirmed')
     })
-
     socket.on('orderPicked', () => {
       console.log('pick')
-      socket.in(details.id).emit('orderPicked')
+      socket.in(orderId).emit('orderPicked')
     })
-
     socket.on('orderArrived', () => {
       console.log('arrive')
-      socket.in(details.id).emit('orderArrived')
+      socket.in(orderId).emit('orderArrived')
     })
-
     socket.on('orderDelivered', () => {
       console.log('deliver')
-      socket.in(details.id).emit('orderDelivered')
+      socket.in(orderId).emit('orderDelivered')
     })
   })
 })

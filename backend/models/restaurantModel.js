@@ -6,7 +6,7 @@ const restaurantSchema = mongoose.Schema({
     ref: 'User'
   },
   address: { type: String },
-  coords: {
+  coordinates: {
     latitude: { type: Number },
     longitude: { type: Number }
   },
