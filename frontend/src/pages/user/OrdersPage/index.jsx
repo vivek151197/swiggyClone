@@ -9,20 +9,22 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([])
   const navigate = useNavigate()
 
+  const getOrders = async () =>
+    await fetch('/orders', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setOrders(data)
+      })
+
   useEffect(() => {
     console.log(customer.token)
-    ;(async () =>
-      await fetch('/orders', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${customer.token}`,
-          'Content-type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .then(data => {
-          setOrders(data)
-        }))()
+    getOrders()
   }, [])
 
   const clickHandler = id => {
