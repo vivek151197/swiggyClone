@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { io } from 'socket.io-client'
 import { OrderState } from '../../../components/Context'
 import Header from '../Header'
@@ -53,6 +53,13 @@ const CartPage = () => {
   const clickHandler = () => {
     createOrder()
     emptyCart()
+    toast.success(
+      'Order Placed sucessfully. You can track it by clicking tracking icon in top right of the page',
+      {
+        position: 'bottom-center',
+        autoClose: 2000
+      }
+    )
   }
 
   return (
@@ -98,6 +105,7 @@ const CartPage = () => {
       ) : (
         <div className='emptyCart'>Cart is empty</div>
       )}
+      <ToastContainer />
     </div>
   )
 }

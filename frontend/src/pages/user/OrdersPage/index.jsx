@@ -76,7 +76,14 @@ const OrdersPage = () => {
               {new Date(order.createdAt).toLocaleTimeString()}
               <br />
               {order.deliveryStatus !== 4 && (
-                <button onClick={() => clickHandler(order._id)}>
+                <button
+                  onClick={() => clickHandler(order._id)}
+                  style={{
+                    background: 'green',
+                    color: 'white',
+                    float: 'right'
+                  }}
+                >
                   track Order
                 </button>
               )}

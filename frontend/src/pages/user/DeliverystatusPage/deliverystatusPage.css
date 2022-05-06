@@ -22,6 +22,7 @@
   margin: 1%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 2px black;
+  box-shadow: 0 0 2px grey;
+  height: 70vh;
   justify-content: space-evenly;
 }
