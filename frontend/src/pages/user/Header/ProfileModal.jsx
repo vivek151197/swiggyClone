@@ -31,18 +31,17 @@ const ProfileModal = ({ modal, setModal }) => {
       header='Profile'
       isOpen={modal}
       closeButton='x'
-      closeButtonPosition='bottom'
+      closeButtonPosition='header'
       onClose={() => {
         setModal(false)
         return true
       }}
+      className='profileModal'
     >
       <span className='basicDetails'>
         <b> {user && user.customer.name} </b>
-        <br />
         <b> {user && user.customer.email}</b>
-        <br />
-        <b> {user && user.address}</b>
+        {user && user.address}
       </span>
     </PureModal>
   )

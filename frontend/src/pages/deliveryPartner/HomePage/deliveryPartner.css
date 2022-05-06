@@ -13,9 +13,16 @@
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  margin-bottom: 10px;
   background-color: cornsilk;
   height: 10vh;
 }
 
 .map {
+  display: flex;
+}
+
+.delStatusTrue {
+  background-color: green;
+  color: white;
 }

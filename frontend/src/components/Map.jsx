@@ -129,7 +129,7 @@ const Map = ({ orderData }) => {
     })
 
     // Integrates directions control with map
-    // map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-right')
     map.addControl(directions, 'top-left')
 
     // clean up on unmount
@@ -143,8 +143,8 @@ const Map = ({ orderData }) => {
     <div
       ref={mapContainerRef}
       style={{
-        width: '100vw',
-        height: '75vh',
+        width: '95vw',
+        height: '70vh',
         margin: '1%',
         border: 'solid 1px black'
       }}

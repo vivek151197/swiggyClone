@@ -51,7 +51,7 @@ const Modal = ({ modal, setModal, data }) => {
       }
       isOpen={modal}
       closeButton='x'
-      closeButtonPosition='bottom'
+      closeButtonPosition='header'
       onClose={() => {
         setModal(false)
         return true

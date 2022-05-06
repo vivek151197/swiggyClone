@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router'
-import { OrderState } from './components/Context'
 import AuthPage from './pages/user/AuthPage'
 import OrdersPage from './pages/user/OrdersPage'
 import RestaurantsPage from './pages/user/RestaurantsPage'
@@ -17,14 +16,6 @@ import DeliveryPartnerProtect from './pages/deliveryPartner/components/DeliveryP
 import './App.css'
 
 function App () {
-  const { mylocation, setMylocation } = OrderState()
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position =>
-      setMylocation(position.coords)
-    )
-  }, [])
-
   return (
     <div>
       <Routes>

@@ -65,6 +65,21 @@
   color: green;
 }
 
+.userstatusButton {
+  background-color: orange;
+  border: none;
+  width: 5vw;
+}
+
+.userstatusIcon {
+  height: 100%;
+  width: 100%;
+}
+
+.userstatusIcon:hover {
+  color: white;
+}
+
 .userlogOutButton {
   background-color: orange;
   border: none;
@@ -72,11 +87,16 @@
   width: 5vw;
 }
 
+.userlogOutIcon {
+  height: 100%;
+  width: 100%;
+}
+
 .userlogOutIcon:hover {
   color: brown;
 }
 
-.userlogOutIcon {
-  height: 100%;
-  width: 100%;
+.basicDetails {
+  display: flex;
+  flex-direction: column;
 }

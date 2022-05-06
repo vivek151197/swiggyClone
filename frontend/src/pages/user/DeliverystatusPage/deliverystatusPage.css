@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   background-color: cornsilk;
-  position: sticky;
-  bottom: 0;
+  position: relative;
+  top: 5vh;
   height: 10vh;
   margin-top: 5px;
 }

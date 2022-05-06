@@ -12,7 +12,7 @@ import { OrderState } from '../../../components/Context'
 import ProfileModal from './ProfileModal'
 
 const Header = () => {
-  const { cart, customer, mylocation } = OrderState()
+  const { cart, customer, setCustomer, mylocation } = OrderState()
   const [address, setAddress] = useState('')
   const [modal, setModal] = useState(false)
 
@@ -36,6 +36,7 @@ const Header = () => {
 
   const logOutHandler = () => {
     localStorage.removeItem('customerLogin')
+    setCustomer(null)
     navigate('/')
   }
 
@@ -59,8 +60,8 @@ const Header = () => {
             </div>
             <FaShoppingCart className='usercartIcon' />
           </button>
-          <button onClick={ordersClickHandler}>
-            <RiEBikeFill />
+          <button onClick={ordersClickHandler} className='userstatusButton'>
+            <RiEBikeFill className='userstatusIcon' />
           </button>
           <button onClick={logOutHandler} className='userlogOutButton'>
             <AiOutlineLogout className='userlogOutIcon' />

@@ -4,11 +4,10 @@ const OrderContext = createContext()
 
 const OrderProvider = ({ children }) => {
   const [customer, setCustomer] = useState(
-    JSON.parse(localStorage.getItem('customerLogin')) || ''
+    JSON.parse(localStorage.getItem('customerLogin')) || null
   )
   const [cart, setCart] = useState([])
   const [restaurant, setRestaurant] = useState(null)
-  const [mylocation, setMylocation] = useState(null)
   const [orderId, setOrderId] = useState(
     localStorage.getItem('orderId') || null
   )
@@ -23,7 +22,6 @@ const OrderProvider = ({ children }) => {
     })
       .then(res => res.json())
       .then(data => {
-        setMylocation(data.coordinates)
         setCart(data.cart)
         data.cart.length && setRestaurant(data.cart[0].orderRestaurant)
       })
@@ -31,7 +29,6 @@ const OrderProvider = ({ children }) => {
 
   useEffect(() => {
     if (customer) {
-      console.log('hr')
       getCustomer()
     }
   }, [])
@@ -43,8 +40,6 @@ const OrderProvider = ({ children }) => {
         setRestaurant,
         cart,
         setCart,
-        mylocation,
-        setMylocation,
         customer,
         setCustomer,
         orderId,
