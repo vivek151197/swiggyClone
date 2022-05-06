@@ -10,6 +10,7 @@ const OrdersPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log(customer.token)
     ;(async () =>
       await fetch('/orders', {
         method: 'GET',
