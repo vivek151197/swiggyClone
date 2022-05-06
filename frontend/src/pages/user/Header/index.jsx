@@ -31,7 +31,7 @@ const Header = () => {
   }
 
   const ordersClickHandler = () => {
-    navigate('/orders')
+    navigate('/order')
   }
 
   const logOutHandler = () => {

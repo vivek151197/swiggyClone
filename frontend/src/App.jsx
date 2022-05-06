@@ -25,7 +25,7 @@ function App () {
           element={<UserProtect Page={RestaurantsPage} />}
         />
         <Route path='foods' element={<UserProtect Page={FoodsPage} />} />
-        <Route path='orders' element={<UserProtect Page={OrdersPage} />} />
+        <Route path='order' element={<UserProtect Page={OrdersPage} />} />
         <Route path='cart' element={<UserProtect Page={CartPage} />} />
         <Route
           path='deliverystatus'
