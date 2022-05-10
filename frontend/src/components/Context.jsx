@@ -13,7 +13,7 @@ const OrderProvider = ({ children }) => {
   )
 
   const getCustomer = async () => {
-    await fetch('/customer/getCustomer', {
+    await fetch('/customer/', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${customer.token}`,

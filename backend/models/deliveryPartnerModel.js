@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const deliveryPartnerSchema = mongoose.Schema({
-  deliveryPartner: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },

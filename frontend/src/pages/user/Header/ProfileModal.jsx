@@ -9,7 +9,7 @@ const ProfileModal = ({ modal, setModal }) => {
   const [user, setUser] = useState('')
 
   const getCustomer = async () => {
-    await fetch('/customer/getCustomer', {
+    await fetch('/customer/', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${customer.token}`,
@@ -39,8 +39,8 @@ const ProfileModal = ({ modal, setModal }) => {
       className='profileModal'
     >
       <span className='basicDetails'>
-        <b> {user && user.customer.name} </b>
-        <b> {user && user.customer.email}</b>
+        <b> {user && user.user.name} </b>
+        <b> {user && user.user.email}</b>
         {user && user.address}
       </span>
     </PureModal>

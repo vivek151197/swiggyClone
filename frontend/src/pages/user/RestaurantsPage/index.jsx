@@ -10,7 +10,7 @@ const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState([])
 
   const getRestaurants = async () => {
-    await fetch('/restaurant/display', {
+    await fetch('/customer/displayRestaurants', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${customer.token}`,
@@ -45,7 +45,7 @@ const RestaurantsPage = () => {
               onClick={() => clickHandler(data)}
             >
               <img className='restaurantImage' src={data.logo} />
-              <h4>{data.restaurant.name}</h4>
+              <h4>{data.user.name}</h4>
             </div>
           )
         })}

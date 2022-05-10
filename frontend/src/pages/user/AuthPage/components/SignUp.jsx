@@ -37,7 +37,7 @@ const Signup = () => {
       }
     }
 
-    await fetch('/customer', {
+    await fetch('/customer/register', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)

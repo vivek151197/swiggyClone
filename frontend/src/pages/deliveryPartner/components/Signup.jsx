@@ -24,7 +24,7 @@ const Signup = () => {
       role: 'deliveryPartner'
     }
 
-    await fetch('/deliveryPartner', {
+    await fetch('/deliveryPartner/register', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)

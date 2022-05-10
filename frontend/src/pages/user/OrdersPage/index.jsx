@@ -23,7 +23,6 @@ const OrdersPage = () => {
       })
 
   useEffect(() => {
-    console.log(customer.token)
     getOrders()
   }, [])
 
@@ -49,7 +48,7 @@ const OrdersPage = () => {
         <ul className='orders'>
           {orders.map((order, index) => (
             <li className='eachOrder' key={index}>
-              <b> Restaurant:</b> {order.restaurant.restaurant.name}
+              <b> Restaurant:</b> {order.restaurant.user.name}
               <br />
               <b> Items: </b>
               <ul>

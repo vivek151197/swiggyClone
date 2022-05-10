@@ -22,7 +22,7 @@ const RestaurantPartnerHome = () => {
   useEffect(() => {
     try {
       ;(async () => {
-        await fetch('http://localhost:5000/restaurant/load', {
+        await fetch('http://localhost:5000/restaurant/', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ const RestaurantPartnerHome = () => {
         })
           .then(res => res.json())
           .then(data => {
-            setName(data.restaurant.name)
+            setName(data.user.name)
             setLogo(data.logo)
             setMenudata(data.menu)
             data.address && setAddress(data.address)

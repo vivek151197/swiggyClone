@@ -51,7 +51,6 @@ const DeliverystatusPage = () => {
   })
 
   socket.on('orderPicked', () => {
-    console.log('picked')
     setOrderData(prevData => {
       prevData.deliveryStatus = 2
       return { ...prevData }

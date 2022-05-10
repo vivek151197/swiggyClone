@@ -25,7 +25,7 @@ const registerDeliveryPartner = async (req, res) => {
   const user = await User.create({ name, email, password, role })
 
   await DeliveryPartner.create({
-    deliveryPartner: user._id
+    user: user._id
   })
 
   if (user) {
@@ -63,7 +63,7 @@ const updateDeliveryPartner = async (req, res) => {
   try {
     const data = await DeliveryPartner.updateOne(
       {
-        deliveryPartner: {
+        user: {
           _id: req.id
         }
       },
@@ -85,8 +85,8 @@ const updateDeliveryPartner = async (req, res) => {
 const getDeliveryPartner = async (req, res) => {
   try {
     const deliveryPartner = await DeliveryPartner.findOne({
-      deliveryPartner: req.id
-    }).populate('deliveryPartner', { name: 1 })
+      user: req.id
+    }).populate('user', { name: 1 })
     res.status(400).json(deliveryPartner)
   } catch (error) {
     console.log(error)

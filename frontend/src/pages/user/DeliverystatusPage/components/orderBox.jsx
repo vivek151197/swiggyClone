@@ -7,7 +7,7 @@ const OrderBox = ({ orderData }) => {
       <div>
         <div className='place'>
           <img className='restaurantImage' src={orderData.restaurant.logo} />
-          <b>Restaurant : {orderData.restaurant.restaurant.name}</b>
+          <b>Restaurant : {orderData.restaurant.user.name}</b>
         </div>
         <div className='bill'>
           <h4>Items</h4>

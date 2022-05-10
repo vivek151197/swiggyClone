@@ -8,13 +8,15 @@ const {
 const protect = require('../middleware/authMiddleware')
 const router = express.Router()
 
+router.use(protect)
+
 router
   .route('/')
-  .post(protect, createOrder)
-  .get(protect, getOrders)
+  .post(createOrder)
+  .get(getOrders)
 router
   .route('/:id')
-  .get(protect, getOrder)
-  .put(protect, updateOrder)
+  .get(getOrder)
+  .put(updateOrder)
 
 module.exports = router

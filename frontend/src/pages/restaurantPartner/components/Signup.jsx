@@ -24,7 +24,7 @@ const Signup = () => {
       role: 'restaurant'
     }
 
-    await fetch('/restaurant', {
+    await fetch('/restaurant/register', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body)

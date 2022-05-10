@@ -2,7 +2,7 @@ const express = require('express')
 const generateToken = require('../config/generateToken')
 const User = require('../models/userModel')
 const Customer = require('../models/customerModel')
-const Order = require('../models/orderModel')
+const Restaurant = require('../models/restaurantModel')
 
 const registerCustomer = async (req, res) => {
   const { name, email, password, role, address, coordinates } = req.body
@@ -23,7 +23,7 @@ const registerCustomer = async (req, res) => {
   const user = await User.create({ name, email, password, role })
 
   await Customer.create({
-    customer: user._id,
+    user: user._id,
     address: address,
     coordinates: coordinates
   })
@@ -61,7 +61,7 @@ const authCustomer = async (req, res) => {
 const updateCart = async (req, res) => {
   try {
     const customer = await Customer.findOneAndUpdate(
-      { customer: { _id: req.id } },
+      { user: { _id: req.id } },
       {
         $set: { cart: req.body }
       }
@@ -74,16 +74,29 @@ const updateCart = async (req, res) => {
 
 const getCustomer = async (req, res) => {
   const customer = await Customer.findOne({
-    customer: {
+    user: {
       _id: req.id
     }
-  }).populate('customer')
+  }).populate('user')
   res.status(201).json(customer)
+}
+
+const displayRestaurants = async (req, res) => {
+  try {
+    const restaurantsToDisplay = await Restaurant.find(
+      { 'menu.0': { $exists: true } },
+      { user: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }
+    ).populate('user', { name: 1, email: 1, _id: 0 })
+    res.status(201).json(restaurantsToDisplay)
+  } catch (error) {
+    res.status(400).json(error)
+  }
 }
 
 module.exports = {
   registerCustomer,
   authCustomer,
   updateCart,
-  getCustomer
+  getCustomer,
+  displayRestaurants
 }

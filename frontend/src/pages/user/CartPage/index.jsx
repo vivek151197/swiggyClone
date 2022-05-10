@@ -69,7 +69,7 @@ const CartPage = () => {
         <div className='order'>
           <div className='place'>
             <img className='restaurantImage' src={restaurant.logo} />
-            <b>Restaurant : {restaurant.restaurant.name}</b>
+            <b>Restaurant : {restaurant.user.name}</b>
           </div>
           <div className='bill'>
             <h4>Items</h4>

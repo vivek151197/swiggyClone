@@ -20,7 +20,7 @@ const getOrder = async (req, res) => {
     await Order.findOne({
       _id: req.params.id
     }).then(async res => {
-      customer = await Customer.findOne({ customer: res.customer })
+      customer = await Customer.findOne({ user: res.customer })
     })
 
     const order = await Order.findOne({ _id: req.params.id })
@@ -28,7 +28,7 @@ const getOrder = async (req, res) => {
       .populate([
         {
           path: 'restaurant',
-          populate: { path: 'restaurant', select: { name: 1 } }
+          populate: { path: 'user', select: { name: 1 } }
         },
         'deliveryPartner'
       ])
@@ -46,9 +46,9 @@ const getOrders = async (req, res) => {
       .sort({ createdAt: 'desc' })
       .populate({
         path: 'restaurant',
-        select: { logo: 1, restaurant: 1 },
+        select: { logo: 1, user: 1 },
         populate: {
-          path: 'restaurant',
+          path: 'user',
           select: { name: 1 }
         }
       })

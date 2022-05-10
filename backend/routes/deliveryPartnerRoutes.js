@@ -8,10 +8,11 @@ const {
 const protect = require('../middleware/authMiddleware')
 
 const router = express.Router()
+//register = /register and /load = /
 
-router.route('/').post(registerDeliveryPartner)
+router.route('/register').post(registerDeliveryPartner)
 router.route('/login').post(authDeliveryPartner)
 router.route('/update').put(protect, updateDeliveryPartner)
-router.route('/load').get(protect, getDeliveryPartner)
+router.route('/').get(protect, getDeliveryPartner)
 
 module.exports = router

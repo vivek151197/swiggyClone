@@ -25,7 +25,7 @@ const DeliveryPartnerHome = () => {
 
   useEffect(() => {
     ;(async () => {
-      await fetch('/deliveryPartner/load', {
+      await fetch('/deliveryPartner/', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${deliveryPartner.token}`,
@@ -228,7 +228,7 @@ const DeliveryPartnerHome = () => {
       {data && (
         <div>
           <div className='nameAndLocation'>
-            <span>Delivery Partner: {data.deliveryPartner.name}</span>
+            <span>Delivery Partner: {data.user.name}</span>
             <span>
               Location:
               {`${deliveryPartnerLocation[0]} ------ ${deliveryPartnerLocation[1]} `}
@@ -236,46 +236,54 @@ const DeliveryPartnerHome = () => {
           </div>
           <div className='statusMapcontainer'>
             <div className='statusUpdate'>
-              <button
-                onClick={orderConfirmHandler}
-                className={
-                  orderData && orderData.deliveryStatus >= 1
-                    ? 'delStatusTrue'
-                    : ''
-                }
-              >
-                Confirm Order
-              </button>
-              <button
-                onClick={orderPickedHandler}
-                className={
-                  orderData && orderData.deliveryStatus >= 2
-                    ? 'delStatusTrue'
-                    : ''
-                }
-              >
-                Order Picked Up
-              </button>
-              <button
-                onClick={orderArrivedHandler}
-                className={
-                  orderData && orderData.deliveryStatus >= 3
-                    ? 'delStatusTrue'
-                    : ''
-                }
-              >
-                Order Arrived
-              </button>
-              <button
-                onClick={orderDeliveredHandler}
-                className={
-                  orderData && orderData.deliveryStatus >= 4
-                    ? 'delStatusTrue'
-                    : ''
-                }
-              >
-                Order Delivered
-              </button>
+              {orderData && orderData.deliveryStatus >= 0 && (
+                <button
+                  onClick={orderConfirmHandler}
+                  className={
+                    orderData && orderData.deliveryStatus >= 1
+                      ? 'delStatusTrue'
+                      : ''
+                  }
+                >
+                  Confirm Order
+                </button>
+              )}
+              {orderData && orderData.deliveryStatus >= 1 && (
+                <button
+                  onClick={orderPickedHandler}
+                  className={
+                    orderData && orderData.deliveryStatus >= 2
+                      ? 'delStatusTrue'
+                      : ''
+                  }
+                >
+                  Order Picked Up
+                </button>
+              )}
+              {orderData && orderData.deliveryStatus >= 2 && (
+                <button
+                  onClick={orderArrivedHandler}
+                  className={
+                    orderData && orderData.deliveryStatus >= 3
+                      ? 'delStatusTrue'
+                      : ''
+                  }
+                >
+                  Order Arrived
+                </button>
+              )}
+              {orderData && orderData.deliveryStatus >= 3 && (
+                <button
+                  onClick={orderDeliveredHandler}
+                  className={
+                    orderData && orderData.deliveryStatus >= 4
+                      ? 'delStatusTrue'
+                      : ''
+                  }
+                >
+                  Order Delivered
+                </button>
+              )}
             </div>
             <span className='map'>
               {orderData && <Map orderData={orderData} />}

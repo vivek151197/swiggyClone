@@ -19,7 +19,7 @@ const registerRestaurant = async (req, res) => {
 
   const user = await User.create({ name, email, password, role })
 
-  await Restaurant.create({ restaurant: user._id })
+  await Restaurant.create({ user: user._id })
 
   if (user) {
     res.status(201).json({ token: generateToken(user._id) })
@@ -54,7 +54,7 @@ const updateDetails = async (req, res) => {
     User.updateOne({ _id: req.id }, { name: name })
     const data = await Restaurant.updateOne(
       {
-        restaurant: {
+        user: {
           _id: req.id
         }
       },
@@ -76,8 +76,8 @@ const updateDetails = async (req, res) => {
 const loadRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findOne({
-      restaurant: req.id
-    }).populate('restaurant', { name: 1, email: 1, _id: 0 })
+      user: req.id
+    }).populate('user', { name: 1, email: 1, _id: 0 })
     res.status(201).json(restaurant)
   } catch (error) {
     res.status(400).json(error)
@@ -89,8 +89,8 @@ const displayRestaurants = async (req, res) => {
     console.log('inrest')
     const restaurantsToDisplay = await Restaurant.find(
       { 'menu.0': { $exists: true } },
-      { restaurant: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }
-    ).populate('restaurant', { name: 1, email: 1, _id: 0 })
+      { user: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }
+    ).populate('user', { name: 1, email: 1, _id: 0 })
     res.status(201).json(restaurantsToDisplay)
   } catch (error) {
     res.status(400).json(error)

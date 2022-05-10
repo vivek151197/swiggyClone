@@ -3,15 +3,18 @@ const {
   registerCustomer,
   authCustomer,
   getCustomer,
-  updateCart
+  updateCart,
+  displayRestaurants
 } = require('../controllers/customerController')
 const protect = require('../middleware/authMiddleware')
 
 const router = express.Router()
+//register = /register and /getCustomer = /
 
-router.route('/').post(registerCustomer)
+router.route('/register').post(registerCustomer)
 router.route('/login').post(authCustomer)
 router.route('/cart').put(protect, updateCart)
-router.route('/getCustomer').get(protect, getCustomer)
+router.route('/').get(protect, getCustomer)
+router.route('/displayRestaurants').get(protect, displayRestaurants)
 
 module.exports = router
