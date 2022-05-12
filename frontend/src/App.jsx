@@ -37,9 +37,9 @@ function App () {
           path='/restPartner/homepage'
           element={<RestPartnerProtect Page={RestaurantPartnerHome} />}
         />
-        <Route path='/deliveryPartner' element={<DeliveryPartnerAuth />} />
+        <Route path='/delPartner' element={<DeliveryPartnerAuth />} />
         <Route
-          path='/deliveryPartner/homepage'
+          path='/delPartner/homepage'
           element={<DeliveryPartnerProtect Page={DeliveryPartnerHome} />}
         />
       </Routes>
