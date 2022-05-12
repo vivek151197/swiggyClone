@@ -25,3 +25,14 @@
 .restaurantImage {
   width: 50%;
 }
+
+@media (max-width: 768px) {
+  .restaurantsList {
+    display: block;
+  }
+  .restaurant {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 5%;
+  }
+}

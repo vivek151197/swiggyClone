@@ -1,4 +1,4 @@
-.profileContainer {
+.ordersContainer {
   width: 40%;
   margin: auto;
   display: flex;
@@ -10,15 +10,10 @@
   box-shadow: 0 0 10px grey;
 }
 
-.basicDetails {
-  text-align: center;
-  margin-bottom: 2%;
-}
-
-.profilePic {
-  border-radius: 100%;
-  width: 20%;
-  margin-bottom: 2%;
+.orders {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .eachOrder {
@@ -29,8 +24,11 @@
   list-style: none;
 }
 
-.orders {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+@media (max-width: 768px) {
+  .ordersContainer {
+    width: 80%;
+    padding: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
 }

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
-import { OrderState } from '../components/Context'
 import { io } from 'socket.io-client'
 
 const ENDPOINT = process.env.ENDPOINT
@@ -145,8 +144,8 @@ const Map = ({ orderData }) => {
       style={{
         width: '95vw',
         height: '70vh',
-        margin: '1%',
-        border: 'solid 1px black'
+        border: 'solid 1px black',
+        zIndex: 0
       }}
     />
   )

@@ -25,12 +25,12 @@
   align-items: center;
   justify-content: space-between;
   height: 80%;
-  margin: 5%;
+  padding: 0 5%;
 }
 
 .foodImage {
-  aspect-ratio: 1;
-  width: 40%;
+  height: 90%;
+  width: 50%;
   border-radius: 10%;
 }
 
@@ -75,11 +75,26 @@ button {
   width: 35%;
 }
 
-.footer {
+.modalFooter {
   display: flex;
   justify-content: space-evenly;
 }
 
 .panel-title {
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .pure-modal-backdrop .pure-modal {
+    width: 80%;
+  }
+
+  .foodsList {
+    display: block;
+    margin: 10%;
+  }
+
+  .foodContainer {
+    width: 100%;
+  }
 }

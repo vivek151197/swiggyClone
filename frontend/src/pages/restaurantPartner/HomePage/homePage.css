@@ -9,6 +9,7 @@ input {
 
 .details {
   display: flex;
+  margin-bottom: 5%;
 }
 
 .container {
@@ -131,4 +132,11 @@ input {
   top: 3%;
   background-color: brown;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .details {
+    display: block;
+    margin: 5% 5% 15% 5%;
+  }
 }

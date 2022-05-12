@@ -47,3 +47,10 @@
   background-color: grey;
   color: white;
 }
+
+@media (max-width: 768px) {
+  .order {
+    margin: 2% auto;
+    width: 80%;
+  }
+}

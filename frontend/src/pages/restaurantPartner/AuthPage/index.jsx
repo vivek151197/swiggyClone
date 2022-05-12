@@ -4,7 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Signup from '../components/Signup'
 import Login from '../components/Login'
-import './login.css'
+import './authPage.css'
 import Header from '../components/Header'
 
 const RestaurantPartnerAuth = () => {

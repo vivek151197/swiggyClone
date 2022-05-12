@@ -7,12 +7,11 @@
   height: 50px;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .usertitle {
   color: white;
-  position: absolute;
-  left: 45%;
 }
 
 .userhomeButton {
@@ -30,13 +29,14 @@
 
 .usernavigatorButtons {
   display: flex;
-  height: 75%;
+  height: 100%;
+  align-items: center;
 }
 
 .userprofileButton {
   border: 0px;
   background-color: orange;
-  width: 5vw;
+  height: 75%;
 }
 
 .userprofileIcon {
@@ -52,7 +52,7 @@
 .usercartButton {
   border: 0px;
   background-color: orange;
-  width: 5vw;
+  height: 75%;
 }
 
 .usercartIcon {
@@ -68,7 +68,7 @@
 .userstatusButton {
   background-color: orange;
   border: none;
-  width: 5vw;
+  height: 75%;
 }
 
 .userstatusIcon {
@@ -84,7 +84,7 @@
   background-color: orange;
   border: none;
   color: red;
-  width: 5vw;
+  height: 75%;
 }
 
 .userlogOutIcon {

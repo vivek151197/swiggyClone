@@ -11,18 +11,33 @@
 
 .statusUpdate {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: cornsilk;
   height: 10vh;
 }
 
-.map {
+.mapOrder {
   display: flex;
 }
 
 .delStatusTrue {
   background-color: green;
   color: white;
+  flex-basis: 2;
+}
+
+@media (max-width: 768px) {
+  .mapOrder {
+    display: block;
+  }
+
+  .map {
+    margin: 2%;
+  }
+
+  .orderBox {
+    margin: 2%;
+  }
 }

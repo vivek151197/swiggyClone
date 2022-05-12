@@ -285,9 +285,11 @@ const DeliveryPartnerHome = () => {
                 </button>
               )}
             </div>
-            <span className='map'>
-              {orderData && <Map orderData={orderData} />}
-              {orderData && <OrderBox orderData={orderData} />}
+            <span className='mapOrder'>
+              {orderData && <Map orderData={orderData} className='map' />}
+              {orderData && (
+                <OrderBox orderData={orderData} className='orderBox' />
+              )}
             </span>
           </div>
           <ToastContainer />

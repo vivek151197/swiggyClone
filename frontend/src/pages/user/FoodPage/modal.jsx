@@ -22,7 +22,7 @@ const Modal = ({ modal, setModal, data }) => {
     <PureModal
       header='Items already in cart'
       footer={
-        <div className='footer'>
+        <div className='modalFooter'>
           <button
             style={{
               backgroundColor: 'Red',

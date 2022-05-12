@@ -74,11 +74,6 @@ const DeliverystatusPage = () => {
   return (
     <div>
       <Header />
-      <div className='mapOrder'>
-        {orderData && <Map orderData={orderData} />}
-        {orderData && <OrderBox orderData={orderData} />}
-      </div>
-
       <div className='status'>
         <button className='statusTrue'>Order Placed</button>
         <button
@@ -110,6 +105,11 @@ const DeliverystatusPage = () => {
           Order Delivered
         </button>
       </div>
+      <div className='mapOrder'>
+        {orderData && <Map orderData={orderData} />}
+        {orderData && <OrderBox orderData={orderData} />}
+      </div>
+
       <ToastContainer />
     </div>
   )

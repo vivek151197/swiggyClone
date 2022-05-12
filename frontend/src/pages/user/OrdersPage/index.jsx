@@ -43,7 +43,7 @@ const OrdersPage = () => {
   return (
     <div>
       <Header />
-      <div className='profileContainer'>
+      <div className='ordersContainer'>
         <b> Track Orders </b>
         <ul className='orders'>
           {orders.map((order, index) => (

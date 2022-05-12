@@ -61,3 +61,14 @@ body {
   background-color: greenyellow;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .tabs {
+    margin: 10%;
+    width: 80%;
+  }
+
+  .loginForm {
+    width: 80%;
+  }
+}
