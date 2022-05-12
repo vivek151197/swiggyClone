@@ -47,7 +47,7 @@ const Signup = () => {
       autoClose: 2000
     })
 
-    navigate('/deliveryPartner/homePage')
+    navigate('/delPartner/homePage')
   }
 
   return (

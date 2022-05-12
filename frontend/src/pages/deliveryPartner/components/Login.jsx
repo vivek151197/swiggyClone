@@ -38,7 +38,7 @@ const Login = () => {
             position: 'bottom-center',
             autoClose: 2000
           })
-          navigate('/deliveryPartner/homePage')
+          navigate('/delPartner/homePage')
         }
       })
   }
