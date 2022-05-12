@@ -7,7 +7,7 @@ const DeliveryPartnerProtect = ({ Page }) => {
   )
   return (
     <div>
-      {!deliveryPartnerLogin ? <Navigate to='/deliveryPartner' /> : <Page />}
+      {!deliveryPartnerLogin ? <Navigate to='/delPartner' /> : <Page />}
     </div>
   )
 }
