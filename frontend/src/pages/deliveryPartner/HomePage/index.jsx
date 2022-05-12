@@ -227,64 +227,64 @@ const DeliveryPartnerHome = () => {
       <Header data={deliveryPartner} />
       {data && (
         <div>
-          <div className='nameAndLocation'>
-            <span>Delivery Partner: {data.user.name}</span>
-            <span>
-              Location:
-              {`${deliveryPartnerLocation[0]} ------ ${deliveryPartnerLocation[1]} `}
-            </span>
+          <div className='name'>
+            <span>Welcome, {data.user.name}</span>
           </div>
           <div className='statusMapcontainer'>
-            <div className='statusUpdate'>
-              {orderData && orderData.deliveryStatus >= 0 && (
-                <button
-                  onClick={orderConfirmHandler}
-                  className={
-                    orderData && orderData.deliveryStatus >= 1
-                      ? 'delStatusTrue'
-                      : ''
-                  }
-                >
-                  Confirm Order
-                </button>
-              )}
-              {orderData && orderData.deliveryStatus >= 1 && (
-                <button
-                  onClick={orderPickedHandler}
-                  className={
-                    orderData && orderData.deliveryStatus >= 2
-                      ? 'delStatusTrue'
-                      : ''
-                  }
-                >
-                  Order Picked Up
-                </button>
-              )}
-              {orderData && orderData.deliveryStatus >= 2 && (
-                <button
-                  onClick={orderArrivedHandler}
-                  className={
-                    orderData && orderData.deliveryStatus >= 3
-                      ? 'delStatusTrue'
-                      : ''
-                  }
-                >
-                  Order Arrived
-                </button>
-              )}
-              {orderData && orderData.deliveryStatus >= 3 && (
-                <button
-                  onClick={orderDeliveredHandler}
-                  className={
-                    orderData && orderData.deliveryStatus >= 4
-                      ? 'delStatusTrue'
-                      : ''
-                  }
-                >
-                  Order Delivered
-                </button>
-              )}
-            </div>
+            {orderData ? (
+              <div className='statusUpdate'>
+                {orderData && orderData.deliveryStatus >= 0 && (
+                  <button
+                    onClick={orderConfirmHandler}
+                    className={
+                      orderData && orderData.deliveryStatus >= 1
+                        ? 'delStatusTrue'
+                        : 'delStatusFalse'
+                    }
+                  >
+                    Confirm Order
+                  </button>
+                )}
+                {orderData && orderData.deliveryStatus >= 1 && (
+                  <button
+                    onClick={orderPickedHandler}
+                    className={
+                      orderData && orderData.deliveryStatus >= 2
+                        ? 'delStatusTrue'
+                        : 'delStatusFalse'
+                    }
+                  >
+                    Order Picked Up
+                  </button>
+                )}
+                {orderData && orderData.deliveryStatus >= 2 && (
+                  <button
+                    onClick={orderArrivedHandler}
+                    className={
+                      orderData && orderData.deliveryStatus >= 3
+                        ? 'delStatusTrue'
+                        : 'delStatusFalse'
+                    }
+                  >
+                    Order Arrived
+                  </button>
+                )}
+                {orderData && orderData.deliveryStatus >= 3 && (
+                  <button
+                    onClick={orderDeliveredHandler}
+                    className={
+                      orderData && orderData.deliveryStatus >= 4
+                        ? 'delStatusTrue'
+                        : 'delStatusFalse'
+                    }
+                  >
+                    Order Delivered
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className='noOrders'>No Orders Available Currently</div>
+            )}
             <span className='mapOrder'>
               {orderData && <Map orderData={orderData} className='map' />}
               {orderData && (

@@ -1,15 +1,25 @@
 .status {
   display: flex;
-  justify-content: space-between;
-  background-color: cornsilk;
   height: 10vh;
   width: 100%;
   margin-top: 1%;
 }
 
+.statusfalse {
+  background-color: rgb(235, 232, 232);
+  width: 20%;
+  text-align: center;
+  padding: 1.5%;
+  font-weight: bold;
+}
+
 .statusTrue {
   background-color: green;
   color: white;
+  padding: 1.5%;
+  width: 20%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .mapOrder {
@@ -19,12 +29,21 @@
 
 .orderBox {
   width: 25%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 5px grey;
   justify-content: space-evenly;
   margin-left: 1%;
   background-color: rgb(235, 232, 232);
+}
+
+.noOrders {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
 }
 
 @media (max-width: 768px) {

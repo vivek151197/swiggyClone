@@ -72,14 +72,14 @@ const CartPage = () => {
             <b>Restaurant : {restaurant.user.name}</b>
           </div>
           <div className='bill'>
-            <h4>Items</h4>
+            <b>Items</b>
             {cart.map((order, index) => (
               <div key={index}>
                 {order.food}({order.quantity}): {order.price * order.quantity}
               </div>
             ))}
             <div className='billDetails'>
-              <h4>Bill Details</h4>
+              <b>Bill Details</b>
               <span>
                 Item Total:
                 {cart

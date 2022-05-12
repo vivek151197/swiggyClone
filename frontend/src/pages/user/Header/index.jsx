@@ -13,10 +13,28 @@ import ProfileModal from './ProfileModal'
 
 const Header = () => {
   const { cart, customer, setCustomer, mylocation } = OrderState()
-  const [address, setAddress] = useState('')
+  const [user, setUser] = useState('')
   const [modal, setModal] = useState(false)
 
   const navigate = useNavigate()
+
+  const getCustomer = async () => {
+    await fetch('/customer/', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${customer.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setUser(data)
+      })
+  }
+
+  useEffect(() => {
+    if (customer) getCustomer()
+  }, [])
 
   const homeClickHandler = () => {
     navigate('/restaurants')
@@ -45,6 +63,7 @@ const Header = () => {
       <button onClick={homeClickHandler} className='userhomeButton'>
         <SiSwiggy className='userhomeIcon' />
       </button>
+      {/* <span className='useraddress'>{user.address}</span> */}
       <h3 className='usertitle'>Swiggy Clone</h3>
       {customer ? (
         <span className='usernavigatorButtons'>
@@ -72,7 +91,7 @@ const Header = () => {
           <br />
         </>
       )}
-      <ProfileModal modal={modal} setModal={setModal} />
+      <ProfileModal modal={modal} setModal={setModal} user={user} />
     </div>
   )
 }

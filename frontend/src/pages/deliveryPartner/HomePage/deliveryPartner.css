@@ -4,9 +4,8 @@
   justify-content: space-evenly;
 }
 
-.nameAndLocation {
-  display: flex;
-  justify-content: space-evenly;
+.name {
+  font-weight: bold;
 }
 
 .statusUpdate {
@@ -22,10 +21,14 @@
   display: flex;
 }
 
+.delStatusFalse {
+  width: 100%;
+}
+
 .delStatusTrue {
   background-color: green;
   color: white;
-  flex-basis: 2;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

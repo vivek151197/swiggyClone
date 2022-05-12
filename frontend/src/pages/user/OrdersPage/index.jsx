@@ -80,11 +80,7 @@ const OrdersPage = () => {
               {order.deliveryStatus !== 4 && (
                 <button
                   onClick={() => clickHandler(order._id)}
-                  style={{
-                    background: 'green',
-                    color: 'white',
-                    float: 'right'
-                  }}
+                  className='trackButton'
                 >
                   track Order
                 </button>

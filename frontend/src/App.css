@@ -1,10 +1,16 @@
+* {
+  scrollbar-width: none;
+  box-sizing: border-box;
+}
+
 body {
   height: 100vh;
   margin: 0;
   font-family: sans-serif;
-  scrollbar-width: none;
 }
 
 button {
   cursor: pointer;
+  font-size: large;
+  border: none;
 }

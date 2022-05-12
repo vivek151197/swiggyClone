@@ -13,6 +13,7 @@ import RestPartnerProtect from './pages/restaurantPartner/components/RestProtect
 import DeliveryPartnerAuth from './pages/deliveryPartner/AuthPage'
 import DeliveryPartnerHome from './pages/deliveryPartner/HomePage'
 import DeliveryPartnerProtect from './pages/deliveryPartner/components/DeliveryPartnerProtect'
+import './variable.css'
 import './App.css'
 
 function App () {

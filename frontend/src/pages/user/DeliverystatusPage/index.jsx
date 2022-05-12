@@ -75,35 +75,43 @@ const DeliverystatusPage = () => {
     <div>
       <Header />
       <div className='status'>
-        <button className='statusTrue'>Order Placed</button>
-        <button
+        <span className='statusTrue'>Order Placed</span>
+        <span
           className={
-            orderData && orderData.deliveryStatus >= 1 ? 'statusTrue' : ''
+            orderData && orderData.deliveryStatus >= 1
+              ? 'statusTrue'
+              : 'statusfalse'
           }
         >
           Order Confirmed
-        </button>
-        <button
+        </span>
+        <span
           className={
-            orderData && orderData.deliveryStatus >= 2 ? 'statusTrue' : ''
+            orderData && orderData.deliveryStatus >= 2
+              ? 'statusTrue'
+              : 'statusfalse'
           }
         >
           Order Picked Up
-        </button>
-        <button
+        </span>
+        <span
           className={
-            orderData && orderData.deliveryStatus >= 3 ? 'statusTrue' : ''
+            orderData && orderData.deliveryStatus >= 3
+              ? 'statusTrue'
+              : 'statusfalse'
           }
         >
           Order Arrived
-        </button>
-        <button
+        </span>
+        <span
           className={
-            orderData && orderData.deliveryStatus >= 4 ? 'statusTrue' : ''
+            orderData && orderData.deliveryStatus >= 4
+              ? 'statusTrue'
+              : 'statusfalse'
           }
         >
           Order Delivered
-        </button>
+        </span>
       </div>
       <div className='mapOrder'>
         {orderData && <Map orderData={orderData} />}
