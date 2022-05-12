@@ -21,7 +21,7 @@ const Header = ({ data }) => {
 
     localStorage.removeItem('deliveryPartnerLogin')
     clearInterval(window.interval)
-    navigate('/deliveryPartner')
+    navigate('/delPartner')
   }
 
   return (
