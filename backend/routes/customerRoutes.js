@@ -13,8 +13,8 @@ const router = express.Router()
 
 router.route('/register').post(registerCustomer)
 router.route('/login').post(authCustomer)
+router.route('/displayRestaurants').get(protect, displayRestaurants)
 router.route('/cart').put(protect, updateCart)
 router.route('/').get(protect, getCustomer)
-router.route('/displayRestaurants').get(protect, displayRestaurants)
 
 module.exports = router

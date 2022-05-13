@@ -19,7 +19,6 @@ const RestaurantsPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         setRestaurants(data)
       })
   }
