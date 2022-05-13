@@ -17,12 +17,6 @@ const getOrder = async (req, res) => {
   try {
     let customer = ''
 
-    await Order.findOne({
-      _id: req.params.id
-    }).then(async res => {
-      customer = await Customer.findOne({ user: res.customer })
-    })
-
     const order = await Order.findOne({ _id: req.params.id })
       .select('-customer')
       .populate([
@@ -32,6 +26,12 @@ const getOrder = async (req, res) => {
         },
         'deliveryPartner'
       ])
+
+    await Order.findOne({
+      _id: req.params.id
+    }).then(async res => {
+      customer = await Customer.findOne({ user: res.customer })
+    })
 
     order.customer = customer
     res.status(201).json(order)

@@ -1,5 +1,6 @@
 const express = require('express')
 const generateToken = require('../config/generateToken')
+const Order = require('../models/orderModel')
 const Restaurant = require('../models/restaurantModel')
 const User = require('../models/userModel')
 
@@ -77,23 +78,24 @@ const loadRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findOne({
       user: req.id
-    }).populate('user', { name: 1, email: 1, _id: 0 })
+    }).populate('user', { name: 1, email: 1, _id: 1 })
     res.status(201).json(restaurant)
   } catch (error) {
     res.status(400).json(error)
   }
 }
 
-const displayRestaurants = async (req, res) => {
+const getRestOrders = async (req, res) => {
   try {
-    console.log('inrest')
-    const restaurantsToDisplay = await Restaurant.find(
-      { 'menu.0': { $exists: true } },
-      { user: 1, address: 1, coordinates: 1, logo: 1, menu: 1 }
-    ).populate('user', { name: 1, email: 1, _id: 0 })
-    res.status(201).json(restaurantsToDisplay)
+    const restaurant = await Restaurant.findOne({ user: req.id })
+    const orders = await Order.find({ restaurant: restaurant._id })
+      .sort({
+        createdAt: 'desc'
+      })
+      .populate('customer', { name: 1, email: 1, _id: 0 })
+    res.status(201).json(orders)
   } catch (error) {
-    res.status(400).json(error)
+    console.log(error)
   }
 }
 
@@ -102,5 +104,5 @@ module.exports = {
   authRestaurant,
   updateDetails,
   loadRestaurant,
-  displayRestaurants
+  getRestOrders
 }

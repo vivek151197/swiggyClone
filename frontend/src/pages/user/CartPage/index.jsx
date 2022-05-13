@@ -33,7 +33,7 @@ const CartPage = () => {
     })
       .then(res => res.json())
       .then(data => {
-        socket.emit('assignDeliveryPartner', data._id)
+        socket.emit('orderPlaced', data)
       })
   }
 

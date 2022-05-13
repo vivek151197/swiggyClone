@@ -1,35 +1,67 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { OrderState } from '../../../components/Context'
-import Header from '../Header'
-import './ordersPage.css'
+import Header from '../components/Header'
+import { io } from 'socket.io-client'
 
-const OrdersPage = () => {
-  const { customer, setCustomer, orderId, setOrderId } = OrderState()
+const ENDPOINT = process.env.ENDPOINT
+const socket = io.connect(ENDPOINT)
+
+const RestOrders = () => {
+  const [restPartner, setRestPartner] = useState(
+    JSON.parse(localStorage.getItem('restaurantLogin'))
+  )
   const [orders, setOrders] = useState([])
-  const navigate = useNavigate()
 
-  const getOrders = async () =>
-    await fetch('/orders', {
+  const getOrders = async () => {
+    await fetch('/restaurant/orders', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${customer.token}`,
+        Authorization: `Bearer ${restPartner.token}`,
         'Content-type': 'application/json'
       }
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         setOrders(data)
       })
+  }
+
+  const joinRest = async () => {
+    await fetch('http://localhost:5000/restaurant/', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${restPartner.token}`,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        socket.emit('joinRest', data)
+      })
+  }
 
   useEffect(() => {
     getOrders()
+    joinRest()
+    socket.on('orderPlaced', () => {
+      console.log('placed')
+      getOrders()
+    })
   }, [])
 
-  const clickHandler = id => {
-    setOrderId(id)
-    localStorage.setItem('orderId', id)
-    navigate('/deliveryStatus')
+  const clickHandler = async id => {
+    await fetch(`/orders/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${restPartner.token}`,
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        deliveryStatus: 1
+      })
+    })
+    getOrders()
+    socket.emit('assignDeliveryPartner', id)
   }
 
   const deliveryStatusdisplay = deliveryStatus => {
@@ -44,11 +76,11 @@ const OrdersPage = () => {
     <div>
       <Header />
       <div className='ordersContainer'>
-        <b> Track Orders </b>
+        <b> Orders </b>
         <ul className='orders'>
           {orders.map((order, index) => (
             <li className='eachOrder' key={index}>
-              <b> Restaurant:</b> {order.restaurant.user.name}
+              <b> Customer:</b> {order.customer.name}
               <br />
               <b> Items: </b>
               <ul>
@@ -77,12 +109,12 @@ const OrdersPage = () => {
               {new Date(order.createdAt).toDateString()},
               {new Date(order.createdAt).toLocaleTimeString()}
               <br />
-              {order.deliveryStatus !== 4 && (
+              {order.deliveryStatus === 0 && (
                 <button
                   onClick={() => clickHandler(order._id)}
                   className='button'
                 >
-                  track Order
+                  Confirm Order
                 </button>
               )}
             </li>
@@ -93,4 +125,4 @@ const OrdersPage = () => {
   )
 }
 
-export default OrdersPage
+export default RestOrders

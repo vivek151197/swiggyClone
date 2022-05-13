@@ -3,7 +3,8 @@ const {
   registerRestaurant,
   authRestaurant,
   updateDetails,
-  loadRestaurant
+  loadRestaurant,
+  getRestOrders
 } = require('../controllers/restaurantController')
 const protect = require('../middleware/authMiddleware')
 
@@ -13,6 +14,7 @@ router.route('/register').post(registerRestaurant)
 router.route('/login').post(authRestaurant)
 router.route('/update').put(protect, updateDetails)
 router.route('/').get(protect, loadRestaurant)
+router.route('/orders').get(protect, getRestOrders)
 //move to customer routes
 
 module.exports = router

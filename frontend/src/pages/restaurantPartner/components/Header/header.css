@@ -1,34 +1,58 @@
-.header {
-  border-bottom: solid 1px;
+.restheader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: orange;
-  height: 50px;
+  height: 65px;
 }
 
-.home {
+.resthome {
   height: 75%;
   margin-left: 2%;
   border: 0px;
   background-color: orange;
 }
 
-.homeIcon {
+.resthomeIcon {
   height: 100%;
   width: 100%;
   color: white;
 }
 
-.logOut {
-  background-color: orange;
-  border: none;
-  color: red;
-  width: 10vw;
+.restnavigatorButtons {
+  display: flex;
+  height: 80%;
+  align-items: center;
+}
+
+.restcartButton {
+  border: 0px;
+  background-color: var(--headerBg);
   height: 75%;
 }
 
-.logoutButton {
+.restcartIcon {
   height: 100%;
   width: 100%;
+  color: white;
+}
+
+.restcartIcon:hover {
+  color: green;
+}
+
+.restlogOutButton {
+  border: 0px;
+  background-color: var(--headerBg);
+  height: 75%;
+}
+
+.restlogoutIcon {
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+
+.restlogoutIcon:hover {
+  color: red;
 }

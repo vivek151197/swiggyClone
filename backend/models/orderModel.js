@@ -3,8 +3,16 @@ const bcrypt = require('bcryptjs')
 
 const orderSchema = mongoose.Schema(
   {
-    customer: { type: Object, required: true },
-    restaurant: { type: String, required: true, ref: 'Restaurant' },
+    customer: {
+      type: Object,
+      required: true,
+      ref: 'User'
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Restaurant'
+    },
     items: [
       {
         food: { type: String },

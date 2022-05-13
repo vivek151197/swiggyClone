@@ -65,11 +65,19 @@ io.on('connection', socket => {
     socket.join(JSON.stringify(id))
     const deliveryPartner = await DeliveryPartner.findOne({ _id: id })
     if (!deliveryPartner.occupied) {
-      const order = await Order.findOne({ deliveryStatus: 0 })
+      const order = await Order.findOne({ deliveryStatus: 1 })
       if (order) {
         io.in(JSON.stringify(id)).emit('joinRoom', order._id)
       }
     }
+  })
+
+  socket.on('joinRest', rest => {
+    socket.join(JSON.stringify(rest._id))
+  })
+
+  socket.on('orderPlaced', order => {
+    socket.in(JSON.stringify(order.restaurant)).emit('orderPlaced')
   })
 
   socket.on('assignDeliveryPartner', async orderId => {
@@ -79,27 +87,19 @@ io.on('connection', socket => {
   })
 
   socket.on('joinRoom', orderId => {
-    console.log(orderId)
     socket.join(orderId)
 
     socket.on('sendLocation', location => {
       socket.in(orderId).emit('sendLocation', location)
     })
 
-    socket.on('orderConfirmed', () => {
-      console.log('confirm')
-      socket.in(orderId).emit('orderConfirmed')
-    })
     socket.on('orderPicked', () => {
-      console.log('pick')
       socket.in(orderId).emit('orderPicked')
     })
     socket.on('orderArrived', () => {
-      console.log('arrive')
       socket.in(orderId).emit('orderArrived')
     })
     socket.on('orderDelivered', () => {
-      console.log('deliver')
       socket.in(orderId).emit('orderDelivered')
     })
   })

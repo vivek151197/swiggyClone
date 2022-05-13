@@ -1,10 +1,9 @@
 .header {
-  border-bottom: solid 1px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: orange;
-  height: 50px;
+  height: 65px;
 }
 
 .home {

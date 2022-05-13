@@ -13,10 +13,14 @@ const Header = () => {
     navigate('/restPartner')
   }
 
+  const cartClickHandler = () => {
+    navigate('/restPartner/orders')
+  }
+
   return (
-    <div className='header'>
-      <div className='home'>
-        <SiSwiggy className='homeIcon' />
+    <div className='restheader'>
+      <div className='resthome'>
+        <SiSwiggy className='resthomeIcon' />
       </div>
       <h3 style={{ color: 'white' }}>Swiggy Restaurant Partner</h3>
       {!localStorage.getItem('restaurantLogin') ? (
@@ -24,9 +28,15 @@ const Header = () => {
           <br />
         </>
       ) : (
-        <button onClick={logOutHandler} className='logOut'>
-          <AiOutlineLogout className='logoutButton' />
-        </button>
+        <div className='restnavigatorButtons'>
+          <button onClick={cartClickHandler} className='restcartButton'>
+            <FaShoppingCart className='restcartIcon' />
+          </button>
+
+          <button onClick={logOutHandler} className='restlogOutButton'>
+            <AiOutlineLogout className='restlogoutIcon' />
+          </button>
+        </div>
       )}
     </div>
   )

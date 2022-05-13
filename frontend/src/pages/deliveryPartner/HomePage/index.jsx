@@ -93,10 +93,6 @@ const DeliveryPartnerHome = () => {
     }, 1000)
   }, [])
 
-  useEffect(() => {
-    if (orderData && orderData.deliveryStatus === 0) orderConfirmHandler()
-  }, [orderData])
-
   const success = async position => {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
@@ -127,25 +123,25 @@ const DeliveryPartnerHome = () => {
     alert(err)
   }
 
-  const orderConfirmHandler = async () => {
-    if (orderData && orderData.deliveryStatus < 1) {
-      socket.emit('orderConfirmed')
-      await fetch(`/orders/${orderData._id}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${deliveryPartner.token}`,
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          deliveryStatus: 1
-        })
-      })
-      setOrderData(prevData => {
-        prevData.deliveryStatus = 1
-        return { ...prevData }
-      })
-    }
-  }
+  // const orderConfirmHandler = async () => {
+  //   if (orderData && orderData.deliveryStatus < 1) {
+  //     socket.emit('orderConfirmed')
+  //     await fetch(`/orders/${orderData._id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         Authorization: `Bearer ${deliveryPartner.token}`,
+  //         'Content-type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         deliveryStatus: 1
+  //       })
+  //     })
+  //     setOrderData(prevData => {
+  //       prevData.deliveryStatus = 1
+  //       return { ...prevData }
+  //     })
+  //   }
+  // }
 
   const orderPickedHandler = async () => {
     socket.emit('orderPicked')
@@ -235,14 +231,14 @@ const DeliveryPartnerHome = () => {
               <div className='statusUpdate'>
                 {orderData && orderData.deliveryStatus >= 0 && (
                   <button
-                    onClick={orderConfirmHandler}
+                    // onClick={orderConfirmHandler}
                     className={
                       orderData && orderData.deliveryStatus >= 1
                         ? 'delStatusTrue'
                         : 'delStatusFalse'
                     }
                   >
-                    Confirm Order
+                    Order Confirmed
                   </button>
                 )}
                 {orderData && orderData.deliveryStatus >= 1 && (

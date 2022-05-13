@@ -15,6 +15,7 @@ import DeliveryPartnerHome from './pages/deliveryPartner/HomePage'
 import DeliveryPartnerProtect from './pages/deliveryPartner/components/DeliveryPartnerProtect'
 import './variable.css'
 import './App.css'
+import RestOrders from './pages/restaurantPartner/OrdersPage'
 
 function App () {
   return (
@@ -33,6 +34,11 @@ function App () {
           element={<UserProtect Page={DeliverystatusPage} />}
         />
         <Route path='/restPartner' element={<RestaurantPartnerAuth />} />
+        <Route
+          path='/restPartner/orders'
+          element={<RestPartnerProtect Page={RestOrders} />}
+        />
+
         <Route
           path='/restPartner/homepage'
           element={<RestPartnerProtect Page={RestaurantPartnerHome} />}
