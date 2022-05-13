@@ -27,7 +27,7 @@ const RestOrders = () => {
   }
 
   const joinRest = async () => {
-    await fetch('http://localhost:5000/restaurant/', {
+    await fetch('/restaurant/', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${restPartner.token}`,
