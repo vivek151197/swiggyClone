@@ -3,10 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
-import { io } from 'socket.io-client'
-
-const ENDPOINT = process.env.ENDPOINT
-const socket = io.connect(ENDPOINT)
+import socket from './clientSocketInstance'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
@@ -14,8 +11,6 @@ const Map = ({ orderData }) => {
   const mapContainerRef = useRef(null)
 
   useEffect(() => {
-    socket.emit('joinRoom', orderData._id)
-
     let location = [77.644, 12.9614]
 
     socket.on('sendLocation', loc => {

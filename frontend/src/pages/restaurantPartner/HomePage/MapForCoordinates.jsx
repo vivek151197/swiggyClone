@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import { OrderState } from '../../../components/Context'
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY
 
@@ -64,7 +63,7 @@ const MapForCoordinates = ({ setLatitude, setLongitude, setAddress }) => {
     <div>
       <div
         ref={mapContainerRef}
-        style={{ width: '80vw', height: '80vh' }}
+        style={{ width: '100%', height: '70vh' }}
       ></div>
     </div>
   )

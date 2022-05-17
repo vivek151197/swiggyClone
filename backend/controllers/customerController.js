@@ -7,8 +7,16 @@ const Restaurant = require('../models/restaurantModel')
 const registerCustomer = async (req, res) => {
   const { name, email, password, role, address, coordinates } = req.body
 
-  if (!name || !email || !password) {
+  if (
+    !name ||
+    !email ||
+    !password ||
+    !address ||
+    !coordinates.latitude ||
+    !coordinates.longitude
+  ) {
     res.status(400).json({ error: 'Please Enter all the fields' })
+    return
   }
 
   const userExists = await User.findOne({ role: { $eq: 'customer' }, email })
@@ -20,7 +28,12 @@ const registerCustomer = async (req, res) => {
     return
   }
 
-  const user = await User.create({ name, email, password, role })
+  const user = await User.create({
+    name,
+    email,
+    password,
+    role
+  })
 
   await Customer.create({
     user: user._id,

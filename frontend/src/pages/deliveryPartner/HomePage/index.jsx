@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Map from '../../../components/Map'
-import { io } from 'socket.io-client'
 import './deliveryPartner.css'
 import Header from '../components/Header'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import OrderBox from '../../user/DeliverystatusPage/components/orderBox'
-
-const ENDPOINT = process.env.ENDPOINT
-const socket = io.connect(ENDPOINT)
+import socket from '../../../components/clientSocketInstance'
 
 const DeliveryPartnerHome = () => {
   const [deliveryPartner, setdeliveryPartner] = useState(

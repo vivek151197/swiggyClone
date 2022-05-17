@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { io } from 'socket.io-client'
-
-const ENDPOINT = process.env.ENDPOINT
-const socket = io.connect(ENDPOINT)
+import socket from '../../../components/clientSocketInstance'
 
 const RestOrders = () => {
   const [restPartner, setRestPartner] = useState(
@@ -43,8 +40,8 @@ const RestOrders = () => {
   useEffect(() => {
     getOrders()
     joinRest()
-    socket.on('orderPlaced', () => {
-      console.log('placed')
+    socket.on('orderPlaced', orderId => {
+      socket.emit('joinRoom', orderId)
       getOrders()
     })
   }, [])
@@ -61,6 +58,7 @@ const RestOrders = () => {
       })
     })
     getOrders()
+    socket.emit('OrderConfirmed')
     socket.emit('assignDeliveryPartner', id)
   }
 

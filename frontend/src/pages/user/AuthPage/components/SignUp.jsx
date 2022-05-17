@@ -62,7 +62,7 @@ const Signup = () => {
   }
 
   return (
-    <div className='loginForm'>
+    <form className='loginForm'>
       <b>Name</b>
       <input
         type='text'
@@ -131,7 +131,7 @@ const Signup = () => {
         SignUp
       </button>
       <ToastContainer />
-    </div>
+    </form>
   )
 }
 

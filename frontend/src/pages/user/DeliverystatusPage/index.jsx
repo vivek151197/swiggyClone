@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { OrderState } from '../../../components/Context'
 import Map from '../../../components/Map'
 import Header from '../Header'
-import { io } from 'socket.io-client'
 import './deliverystatusPage.css'
 import OrderBox from './components/orderBox'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-const ENDPOINT = process.env.ENDPOINT
-const socket = io.connect(ENDPOINT)
+import socket from '../../../components/clientSocketInstance'
 
 const DeliverystatusPage = () => {
   const { customer, orderId } = OrderState()
@@ -66,6 +63,7 @@ const DeliverystatusPage = () => {
   })
 
   socket.on('orderDelivered', () => {
+    console.log('delivered')
     setOrderData(prevData => {
       prevData.deliveryStatus = 4
       return { ...prevData }

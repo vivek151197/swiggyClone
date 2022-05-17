@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import { io } from 'socket.io-client'
 import { OrderState } from '../../../components/Context'
 import Header from '../Header'
 import './cartPage.css'
-
-const ENDPOINT = process.env.ENDPOINT
-const socket = io.connect(ENDPOINT)
+import socket from '../../../components/clientSocketInstance'
 
 const CartPage = () => {
   const { restaurant, setRestaurant, cart, setCart, customer } = OrderState()

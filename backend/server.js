@@ -35,17 +35,17 @@ app.delete('/users', async (req, res) => {
 //--------------------Deploy--------------//
 const _dirname1 = path.resolve()
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(_dirname1, '/frontend/build')))
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(_dirname1, '/frontend/build')))
 
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
-  )
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
-  })
-}
+//   app.get('*', (req, res) =>
+//     res.sendFile(path.resolve(_dirname1, 'frontend', 'build', 'index.html'))
+//   )
+// } else {
+//   app.get('/', (req, res) => {
+//     res.send('API is running')
+//   })
+// }
 //--------------------Deploy-------------//
 
 const server = app.listen(
@@ -77,7 +77,7 @@ io.on('connection', socket => {
   })
 
   socket.on('orderPlaced', order => {
-    socket.in(JSON.stringify(order.restaurant)).emit('orderPlaced')
+    socket.in(JSON.stringify(order.restaurant)).emit('orderPlaced', order._id)
   })
 
   socket.on('assignDeliveryPartner', async orderId => {
@@ -87,12 +87,15 @@ io.on('connection', socket => {
   })
 
   socket.on('joinRoom', orderId => {
+    console.log(orderId)
     socket.join(orderId)
 
     socket.on('sendLocation', location => {
-      socket.in(orderId).emit('sendLocation', location)
+      io.in(orderId).emit('sendLocation', location)
     })
-
+    socket.on('orderConfirmed', () => {
+      socket.in(orderId).emit('orderConfirmed')
+    })
     socket.on('orderPicked', () => {
       socket.in(orderId).emit('orderPicked')
     })

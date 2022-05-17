@@ -3,8 +3,7 @@ body {
 }
 
 .tabs {
-  margin: auto;
-  margin-top: 5%;
+  margin: 2% auto;
   width: 40%;
   background-color: orange;
   border-radius: 20px;
