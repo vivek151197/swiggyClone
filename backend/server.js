@@ -62,7 +62,6 @@ const io = require('socket.io')(server, {
 
 io.on('connection', socket => {
   socket.on('joinOwn', async id => {
-    socket.join(JSON.stringify(id))
     const deliveryPartner = await DeliveryPartner.findOne({ _id: id })
     if (!deliveryPartner.occupied) {
       const order = await Order.findOne({ deliveryStatus: 1 })
@@ -87,7 +86,6 @@ io.on('connection', socket => {
   })
 
   socket.on('joinRoom', orderId => {
-    console.log(orderId)
     socket.join(orderId)
 
     socket.on('sendLocation', location => {

@@ -48,7 +48,7 @@ const Signup = () => {
   }
 
   return (
-    <form className='loginForm' required>
+    <div className='loginForm' required>
       <b>Restaurant Name</b>
       <input
         type='text'
@@ -87,7 +87,7 @@ const Signup = () => {
         onClick={signupHandler}
       />
       <ToastContainer />
-    </form>
+    </div>
   )
 }
 
